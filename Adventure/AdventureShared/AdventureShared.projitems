@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{6A466B7D-D0C1-43EF-A36E-B83A1AFB73D7}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AdventureShared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AI\ArtificialIntelligence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AI\ChaseAI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AI\SpawnAI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\AdventureScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\Common\HeroType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\Common\HUDState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\Common\WorldLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\MultiplayerLayeredCharacterScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scene\UserData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Archer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Boss.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Cave.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Character.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Common\AnimationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Common\ColliderType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Common\MoveDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\EnemyCharacter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Goblin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\HeroCharacter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ParallaxSprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Tree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Warrior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\DataMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\GraphicsUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\MapScaner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\TreeMap.cs" />
+  </ItemGroup>
+</Project>
