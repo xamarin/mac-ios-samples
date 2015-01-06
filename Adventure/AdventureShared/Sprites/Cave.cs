@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 #if __IOS__
@@ -17,46 +16,46 @@ namespace Adventure
 {
 	public class Cave : EnemyCharacter
 	{
-		private new const int CollisionRadius = 90;
-		private const int CaveCapacity = 50;
+		const int CollisionRadius = 90;
+		const int CaveCapacity = 50;
 
 		public List<Goblin> ActiveGoblins { get; private set; }
 
-		private List<Goblin> _inactiveGoblins;
-		private SKEmitterNode _smokeEmitter;
+		List<Goblin> inactiveGoblins;
+		SKEmitterNode smokeEmitter;
 
-		private static SKNode _sharedCaveBase = null;
-		private static SKNode _sharedCaveTop = null;
+		static SKNode sharedCaveBase;
+		static SKNode sharedCaveTop;
 
-		private static SKSpriteNode _sharedDeathSplort;
+		static SKSpriteNode sharedDeathSplort;
 
-		private SKSpriteNode DeathSplort {
+		SKSpriteNode DeathSplort {
 			get {
-				return _sharedDeathSplort;
+				return sharedDeathSplort;
 			}
 		}
 
-		private static SKEmitterNode _sharedDamageEmitter;
+		static SKEmitterNode sharedDamageEmitter;
 
 		protected override SKEmitterNode DamageEmitter {
 			get {
-				return _sharedDamageEmitter;
+				return sharedDamageEmitter;
 			}
 		}
 
-		private static SKEmitterNode _sharedDeathEmitter;
+		static SKEmitterNode sharedDeathEmitter;
 
-		private SKEmitterNode DeathEmitter {
+		SKEmitterNode DeathEmitter {
 			get {
-				return _sharedDeathEmitter;
+				return sharedDeathEmitter;
 			}
 		}
 
-		private static SKAction _sharedDamageAction;
+		static SKAction sharedDamageAction;
 
 		protected override SKAction DamageAction {
 			get {
-				return _sharedDamageAction;
+				return sharedDamageAction;
 			}
 		}
 
@@ -94,29 +93,29 @@ namespace Adventure
 
 		#region Cap on Generation
 
-		private static int sGlobalAllocation = 0;
+		static int sGlobalAllocation = 0;
 
 		public static int GoblinCap { get; set; }
 
 		#endregion
 
 		public Cave (CGPoint position)
-			: base (new SKNode[] {
-				(SKNode)((NSObject)_sharedCaveBase).Copy (),
-				(SKNode)((NSObject)_sharedCaveTop).Copy ()
+			: base (new [] {
+				(SKNode)sharedCaveBase.Copy (),
+				(SKNode)sharedCaveTop.Copy ()
 			}, position, 50)
 		{
 			double randomDelay = new Random ().NextDouble ();
 			TimeUntilNextGenerate = 5f * (1f + (float)randomDelay);
 
 			ActiveGoblins = new List<Goblin> ();
-			_inactiveGoblins = new List<Goblin> ();
+			inactiveGoblins = new List<Goblin> ();
 
 			for (int i = 0; i < CaveCapacity; i++) {
-				Goblin goblin = new Goblin (Position) {
+				var goblin = new Goblin (Position) {
 					Cave = this
 				};
-				_inactiveGoblins.Add (goblin);
+				inactiveGoblins.Add (goblin);
 			}
 
 			MovementSpeed = 0f;
@@ -126,11 +125,11 @@ namespace Adventure
 			Intelligence = new SpawnAI (this);
 		}
 
-		private void PickRandomFacingFor (CGPoint position)
+		void PickRandomFacingFor (CGPoint position)
 		{
 			MultiplayerLayeredCharacterScene scene = CharacterScene;
 
-			Random rnd = new Random ();
+			var rnd = new Random ();
 
 			// Pick best random facing from 8 test rays.
 			nfloat maxDoorCanSee = 0;
@@ -141,7 +140,7 @@ namespace Adventure
 				var x = -Math.Sin (testZ) * 1024 + position.X;
 				var y = Math.Cos (testZ) * 1024 + position.Y;
 
-				CGPoint pos2 = new CGPoint ((int)x, (int)y);
+				var pos2 = new CGPoint ((int)x, (int)y);
 
 				nfloat dist = 0;
 				if (scene != null)
@@ -217,7 +216,7 @@ namespace Adventure
 		{
 			base.PerformDeath ();
 
-			var splort = (SKNode)((NSObject)DeathSplort).Copy ();
+			var splort = (SKNode)DeathSplort.Copy ();
 			splort.ZPosition = -1;
 			splort.ZRotation = VirtualZRotation;
 			splort.Position = Position;
@@ -228,20 +227,20 @@ namespace Adventure
 
 			scene.AddNode (splort, WorldLayer.BelowCharacter);
 
-			RunAction (SKAction.Sequence (new SKAction[] {
+			RunAction (SKAction.Sequence (new [] {
 				SKAction.FadeAlphaTo (0, 0.5f),
 				SKAction.RemoveFromParent ()
 			}));
 
-			_smokeEmitter.RunAction (SKAction.Sequence (new SKAction[] {
+			smokeEmitter.RunAction (SKAction.Sequence (new [] {
 				SKAction.WaitForDuration (2),
 				SKAction.Run (() => {
-					_smokeEmitter.ParticleBirthRate = 2;
+					smokeEmitter.ParticleBirthRate = 2;
 				}),
 
 				SKAction.WaitForDuration (2),
 				SKAction.Run (() => {
-					_smokeEmitter.ParticleBirthRate = 0;
+					smokeEmitter.ParticleBirthRate = 0;
 				}),
 
 				SKAction.WaitForDuration (10),
@@ -249,23 +248,23 @@ namespace Adventure
 				SKAction.RemoveFromParent ()
 			}));
 
-			_inactiveGoblins.Clear ();
+			inactiveGoblins.Clear ();
 		}
 
 		#endregion
 
 		#region Damage Smoke Emitter
 
-		private void UpdateSmokeForHealth ()
+		void UpdateSmokeForHealth ()
 		{
 			// Add smoke if health is < 75.
-			if (Health > 75f || _smokeEmitter != null)
+			if (Health > 75f || smokeEmitter != null)
 				return;
 
-			SKEmitterNode emitter = (SKEmitterNode)((NSObject)DeathEmitter).Copy ();
+			var emitter = (SKEmitterNode)DeathEmitter.Copy ();
 			emitter.Position = Position;
 			emitter.ZPosition = -0.8f;
-			_smokeEmitter = emitter;
+			smokeEmitter = emitter;
 			((MultiplayerLayeredCharacterScene)Scene).AddNode (emitter, WorldLayer.AboveCharacter);
 		}
 
@@ -300,13 +299,13 @@ namespace Adventure
 			if (GoblinCap <= 0 || sGlobalAllocation >= GoblinCap)
 				return;
 
-			Goblin character = _inactiveGoblins [_inactiveGoblins.Count - 1];
+			Goblin character = inactiveGoblins [inactiveGoblins.Count - 1];
 			if (character == null)
 				return;
 
 			var offset = CollisionRadius * 0.75f;
 			var rot = GraphicsUtilities.PalarAdjust (VirtualZRotation);
-			CGPoint pos = new CGPoint ((float)Math.Cos (rot) * offset, (float)Math.Sin (rot) * offset);
+			var pos = new CGPoint ((float)Math.Cos (rot) * offset, (float)Math.Sin (rot) * offset);
 			character.Position = new CGPoint (pos.X + Position.X, pos.Y + Position.Y);
 
 			MultiplayerLayeredCharacterScene scene = CharacterScene;
@@ -315,7 +314,7 @@ namespace Adventure
 			character.ZPosition = -1f;
 			character.FadeIn (0.5f);
 
-			_inactiveGoblins.Remove (character);
+			inactiveGoblins.Remove (character);
 			ActiveGoblins.Add (character);
 			sGlobalAllocation++;
 		}
@@ -328,7 +327,7 @@ namespace Adventure
 			goblin.Reset ();
 
 			ActiveGoblins.Remove (goblin);
-			_inactiveGoblins.Add (goblin);
+			inactiveGoblins.Add (goblin);
 
 			sGlobalAllocation--;
 		}
@@ -355,27 +354,27 @@ namespace Adventure
 
 			SKEmitterNode smoke = GraphicsUtilities.EmitterNodeWithEmitterNamed ("CaveFireSmoke");
 
-			SKNode torch = new SKNode {
-				fire,
-				smoke
-			};
+			var sKNode = new SKNode ();
+			sKNode.Add (fire);
+			sKNode.Add (smoke);
+			SKNode torch = sKNode;
 
-			_sharedCaveBase = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_base.png"));
+			sharedCaveBase = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_base.png"));
 
 			// Add two torches either side of the entrance.
 			torch.Position = new CGPoint (83, 83);
-			_sharedCaveBase.AddChild (torch);
-			SKNode torchB = (SKNode)((NSObject)torch).Copy ();
+			sharedCaveBase.AddChild (torch);
+			var torchB = (SKNode)torch.Copy ();
 			torchB.Position = new CGPoint (-83, 83);
-			_sharedCaveBase.AddChild (torchB);
+			sharedCaveBase.AddChild (torchB);
 
-			_sharedCaveTop = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_top.png"));
-			_sharedDeathSplort = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_destroyed.png"));
+			sharedCaveTop = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_top.png"));
+			sharedDeathSplort = SKSpriteNode.FromTexture (atlas.TextureNamed ("cave_destroyed.png"));
 
-			_sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("CaveDamage");
-			_sharedDeathEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("CaveDeathSmoke");
+			sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("CaveDamage");
+			sharedDeathEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("CaveDeathSmoke");
 
-			_sharedDamageAction = SKAction.Sequence (new SKAction[] {
+			sharedDamageAction = SKAction.Sequence (new [] {
 				SKAction.ColorizeWithColor (whiteColor, 1, 0),
 				SKAction.WaitForDuration (0.25),
 				SKAction.ColorizeWithColorBlendFactor (0, 0.1),

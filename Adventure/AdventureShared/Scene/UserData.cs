@@ -1,11 +1,10 @@
-﻿using System;
-using Foundation;
+﻿using Foundation;
 
 namespace Adventure
 {
 	public class UserData : DictionaryContainer
 	{
-		private const string PlayerKey = "kPlayer";
+		const string PlayerKey = "kPlayer";
 
 		public Player Player
 		{

@@ -12,86 +12,86 @@ using CoreGraphics;
 
 namespace Adventure
 {
-	public class Goblin : EnemyCharacter
+	public sealed class Goblin : EnemyCharacter
 	{
-		private const float MinGoblinSize = 0.5f;
-		private const float GoblinSizeVariance = 0.35f;
-		private const int GoblinCollisionRadius = 10;
+		const float MinGoblinSize = 0.5f;
+		const float GoblinSizeVariance = 0.35f;
+		const int GoblinCollisionRadius = 10;
 
-		private const int GoblinAttackFrames = 33;
-		private const int GoblinDeathFrames = 31;
-		private const int GoblinGetHitFrames = 25;
+		const int GoblinAttackFrames = 33;
+		const int GoblinDeathFrames = 31;
+		const int GoblinGetHitFrames = 25;
 
-		private static SKEmitterNode _sharedDamageEmitter;
+		static SKEmitterNode sharedDamageEmitter;
 
 		protected override SKEmitterNode DamageEmitter {
 			get {
-				return _sharedDamageEmitter;
+				return sharedDamageEmitter;
 			}
 		}
 
-		private static SKAction _sharedDamageAction;
+		static SKAction sharedDamageAction;
 
 		protected override SKAction DamageAction {
 			get {
-				return _sharedDamageAction;
+				return sharedDamageAction;
 			}
 		}
 
-		private static SKTexture[] _sharedIdleAnimationFrames;
+		static SKTexture[] sharedIdleAnimationFrames;
 
 		protected override SKTexture[] IdleAnimationFrames {
 			get {
-				return _sharedIdleAnimationFrames;
+				return sharedIdleAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedWalkAnimationFrames;
+		static SKTexture[] sharedWalkAnimationFrames;
 
 		protected override SKTexture[] WalkAnimationFrames {
 			get {
-				return _sharedWalkAnimationFrames;
+				return sharedWalkAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedAttackAnimationFrames;
+		static SKTexture[] sharedAttackAnimationFrames;
 
 		protected override SKTexture[] AttackAnimationFrames {
 			get {
-				return _sharedAttackAnimationFrames;
+				return sharedAttackAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedGetHitAnimationFrames;
+		static SKTexture[] sharedGetHitAnimationFrames;
 
 		protected override SKTexture[] GetHitAnimationFrames {
 			get {
-				return _sharedGetHitAnimationFrames;
+				return sharedGetHitAnimationFrames;
 			}
 		}
 
-		static SKTexture[] _sharedDeathAnimationFrames;
+		static SKTexture[] sharedDeathAnimationFrames;
 
 		protected override SKTexture[] DeathAnimationFrames {
 			get {
-				return _sharedDeathAnimationFrames;
+				return sharedDeathAnimationFrames;
 			}
 		}
 
-		private static SKSpriteNode _sharedDeathSplort;
+		static SKSpriteNode sharedDeathSplort;
 
-		private SKSpriteNode deathSplort {
+		SKSpriteNode deathSplort {
 			get {
-				return _sharedDeathSplort;
+				return sharedDeathSplort;
 			}
 		}
 
-		private Random _rnd;
+		Random rnd;
 
-		private Random Random {
+		Random Random {
 			get {
-				_rnd = _rnd ?? new Random ();
-				return _rnd;
+				rnd = rnd ?? new Random ();
+				return rnd;
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace Adventure
 
 			RemoveAllActions ();
 
-			RunAction (SKAction.Sequence (new SKAction[] {
+			RunAction (SKAction.Sequence (new [] {
 				SKAction.WaitForDuration (0.75),
 				SKAction.FadeOutWithDuration (1),
 				SKAction.Run (() => {
@@ -178,7 +178,7 @@ namespace Adventure
 		{
 			RemoveAllActions ();
 
-			SKSpriteNode splort = (SKSpriteNode)((NSObject)deathSplort).Copy ();
+			SKSpriteNode splort = (SKSpriteNode)deathSplort.Copy ();
 			splort.ZPosition = -1;
 			splort.ZRotation = (float)(Random.NextDouble () * Math.PI);
 			splort.Position = Position;
@@ -211,14 +211,14 @@ namespace Adventure
 
 			SKTextureAtlas atlas = SKTextureAtlas.FromName ("Environment");
 
-			_sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Idle", "goblin_idle_", DefaultNumberOfIdleFrames);
-			_sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Walk", "goblin_walk_", DefaultNumberOfWalkFrames);
-			_sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Attack", "goblin_attack_", GoblinAttackFrames);
-			_sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_GetHit", "goblin_getHit_", GoblinGetHitFrames);
-			_sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Death", "goblin_death_", GoblinDeathFrames);
-			_sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Damage");
-			_sharedDeathSplort = SKSpriteNode.FromTexture (atlas.TextureNamed ("minionSplort.png"));
-			_sharedDamageAction = SKAction.Sequence (new SKAction[] {
+			sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Idle", "goblin_idle_", DefaultNumberOfIdleFrames);
+			sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Walk", "goblin_walk_", DefaultNumberOfWalkFrames);
+			sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Attack", "goblin_attack_", GoblinAttackFrames);
+			sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_GetHit", "goblin_getHit_", GoblinGetHitFrames);
+			sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Goblin_Death", "goblin_death_", GoblinDeathFrames);
+			sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Damage");
+			sharedDeathSplort = SKSpriteNode.FromTexture (atlas.TextureNamed ("minionSplort.png"));
+			sharedDamageAction = SKAction.Sequence (new [] {
 				SKAction.ColorizeWithColor (whiteColor, 1, 0),
 				SKAction.WaitForDuration (0.75f),
 				SKAction.ColorizeWithColorBlendFactor (0, 0.1)

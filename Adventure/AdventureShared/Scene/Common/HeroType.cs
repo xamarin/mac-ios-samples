@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Adventure
+﻿namespace Adventure
 {
 	public enum HeroType
 	{

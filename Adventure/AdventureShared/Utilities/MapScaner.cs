@@ -6,8 +6,8 @@ namespace Adventure
 {
 	public class MapScaner
 	{
-		private readonly nint MapWidth;
-		private readonly byte[] Map;
+		readonly nint MapWidth;
+		readonly byte[] Map;
 
 		public MapScaner (byte[] mapData, nint mapWidth)
 		{
@@ -41,7 +41,7 @@ namespace Adventure
 			};
 		}
 
-		private int ConvertToIndex (CGPoint point)
+		int ConvertToIndex (CGPoint point)
 		{
 			// One pixel take 4 bytes (Alpha + R + G + B)
 			var index = 4 * (point.Y * MapWidth + point.X);

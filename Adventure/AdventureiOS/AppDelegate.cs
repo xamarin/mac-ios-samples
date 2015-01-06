@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 
 namespace Adventure
 {
 	[Register ("AppDelegate")]
-	public partial class AppDelegate : UIApplicationDelegate
+	public class AppDelegate : UIApplicationDelegate
 	{
 		public override UIWindow Window { get; set; }
 

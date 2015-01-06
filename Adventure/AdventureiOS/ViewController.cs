@@ -9,7 +9,7 @@ namespace Adventure
 {
 	public partial class ViewController : UIViewController
 	{
-		private AdventureScene _scene;
+		AdventureScene scene;
 
 		public ViewController (IntPtr handle)
 			: base (handle)
@@ -38,11 +38,11 @@ namespace Adventure
 			// Call BuildScence inside ViewWillLayoutSubviews because in ios7 property View.Bounds
 			// always relative to Portrait orientation (but we run game in Landscape)
 			// In ios8 you can move BuildScence to ViewDidLoad
-			if (_scene == null)
+			if (scene == null)
 				BuildScence ();
 		}
 
-		private void BuildScence ()
+		void BuildScence ()
 		{
 			loadingProgressIndicator.StartAnimating ();
 
@@ -55,17 +55,17 @@ namespace Adventure
 				size.Width *= 2;
 			}
 
-			_scene = new AdventureScene (size);
+			scene = new AdventureScene (size);
 
-			_scene.LoadSceneAssetsWithCompletionHandler (() => {
-				_scene.Initialize();
-				_scene.ScaleMode = SKSceneScaleMode.AspectFill;
-				_scene.ConfigureGameControllers();
+			scene.LoadSceneAssetsWithCompletionHandler (() => {
+				scene.Initialize();
+				scene.ScaleMode = SKSceneScaleMode.AspectFill;
+				scene.ConfigureGameControllers();
 
 				loadingProgressIndicator.StopAnimating();
 				loadingProgressIndicator.Hidden = true;
 
-				SKView.PresentScene(_scene);
+				SKView.PresentScene(scene);
 
 				UIView.Animate(2, 0, UIViewAnimationOptions.CurveEaseInOut, ()=> {
 					archerButton.Alpha = 1;
@@ -78,7 +78,7 @@ namespace Adventure
 			SKView.ShowsNodeCount = true;
 		}
 
-		private void HideUIElements(bool shouldHide, bool shouldAnimate)
+		void HideUIElements(bool shouldHide, bool shouldAnimate)
 		{
 			float alpha = shouldHide ? 0.0f : 1.0f;
 
@@ -95,22 +95,22 @@ namespace Adventure
 		}
 
 		[Export("chooseArcher:")]
-		private void ChooseArcher(NSObject sender)
+		void ChooseArcher(NSObject sender)
 		{
 			StartGameWithHeroType (HeroType.Archer);
 		}
 
 		[Export("chooseWarrior:")]
-		private void ChooseWarrior(NSObject sender)
+		void ChooseWarrior(NSObject sender)
 		{
 			StartGameWithHeroType (HeroType.Warrior);
 		}
 
-		private void StartGameWithHeroType(HeroType type)
+		void StartGameWithHeroType(HeroType type)
 		{
 			HideUIElements (true, true);
-			_scene.DefaultPlayerHeroType = type;
-			_scene.StartLevel ();
+			scene.DefaultPlayerHeroType = type;
+			scene.StartLevel ();
 		}
 	}
 }

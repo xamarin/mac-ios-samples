@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Adventure
+﻿namespace Adventure
 {
 	// The layers in a scene
 	public enum WorldLayer

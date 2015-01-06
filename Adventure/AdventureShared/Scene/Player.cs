@@ -8,7 +8,6 @@ using AppKit;
 #endif
 
 using Foundation;
-using ObjCRuntime;
 using CoreGraphics;
 using GameController;
 
@@ -53,7 +52,7 @@ namespace Adventure
 		{
 			LivesLeft = StartLives;
 
-			Random rnd = new Random ();
+			var rnd = new Random ();
 			HeroType = rnd.Next (1) == 0 ? HeroType.Warrior : HeroType.Archer;
 		}
 	}

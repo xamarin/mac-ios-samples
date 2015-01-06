@@ -10,7 +10,7 @@ Build Requirements
 * iOS 7 SDK.
 * OS X 10.9 SDK.
 * Xamarin.iOS 8.4.0.47 or later.
-* Xamarin.Mac 11.0.3 or later.
+* Xamarin.Mac 1.11.3.0 or later.
 
 Target
 ------

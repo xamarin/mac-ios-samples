@@ -10,7 +10,6 @@ using UIKit;
 using AppKit;
 #endif
 
-using CoreText;
 using Foundation;
 using ObjCRuntime;
 using GameController;
@@ -118,7 +117,7 @@ namespace Adventure
 			HeroCharacter hero = CreateHeroBy (player.HeroType, spawnPos, player);
 
 			if (hero != null) {
-				SKEmitterNode emitter = (SKEmitterNode)((NSObject)SharedSpawnEmitter).Copy ();
+				var emitter = (SKEmitterNode)SharedSpawnEmitter.Copy ();
 				emitter.Position = spawnPos;
 				AddNode (emitter, WorldLayer.AboveCharacter);
 				GraphicsUtilities.RunOneShotEmitter (emitter, 0.15f);
@@ -168,7 +167,7 @@ namespace Adventure
 		/* Determines the relevant player from the given projectile, and adds to that player's score. */
 		public void AddToScoreAfterEnemyKill (int amount, SKNode projectile)
 		{
-			UserData userData = new UserData (projectile.UserData);
+			var userData = new UserData (projectile.UserData);
 			Player player = userData.Player;
 			player.Score += amount;
 			updateHUDFor (player);
@@ -370,7 +369,6 @@ namespace Adventure
 					continue;
 
 				hero = player.Hero;
-				hero = player.Hero;
 				if (hero == null || hero.Dying)
 					continue;
 
@@ -437,7 +435,7 @@ namespace Adventure
 		}
 
 		[Export ("clearWorldMoved")]
-		private void ClearWorldMoved ()
+		void ClearWorldMoved ()
 		{
 			WorldMovedForUpdate = false;
 		}
@@ -467,8 +465,7 @@ namespace Adventure
 				if (node == null || node.PhysicsBody == null)
 					continue;
 
-				if ((node.PhysicsBody.CategoryBitMask & (uint)(ColliderType.Cave | ColliderType.GoblinOrBoss)) > 0)
-					wantsAttack = true;
+				wantsAttack |= (node.PhysicsBody.CategoryBitMask & (uint)(ColliderType.Cave | ColliderType.GoblinOrBoss)) > 0;
 			}
 
 			defaultPlayer.FireAction = wantsAttack;
@@ -591,7 +588,7 @@ namespace Adventure
 			GCController.StartWirelessControllerDiscovery (() => Console.WriteLine ("Finished finding controllers"));
 		}
 
-		private void ConfigureConnectedGameControllers ()
+		void ConfigureConnectedGameControllers ()
 		{
 			if (GCController.Controllers == null)
 				return;
@@ -615,7 +612,7 @@ namespace Adventure
 			}
 		}
 
-		private void GameControllerDidConnect (object sender, NSNotificationEventArgs e)
+		void GameControllerDidConnect (object sender, NSNotificationEventArgs e)
 		{
 			var controller = (GCController)e.Notification.Object;
 			Console.WriteLine ("Connected game controller: {0}", controller);
@@ -627,7 +624,7 @@ namespace Adventure
 				AssignPresetController (controller, playerIndex);
 		}
 
-		private void GameControllerDidDisconnect (object sender, NSNotificationEventArgs e)
+		void GameControllerDidDisconnect (object sender, NSNotificationEventArgs e)
 		{
 			var controller = (GCController)e.Notification.Object;
 			foreach (Player player in players) {
@@ -641,7 +638,7 @@ namespace Adventure
 			Console.WriteLine ("Disconnected game controller: {0}", controller);
 		}
 
-		private void AssignUnknownController (GCController controller)
+		void AssignUnknownController (GCController controller)
 		{
 			for (int playerIndex = 0; playerIndex < NUM_PLAYERS; playerIndex++) {
 				Player player = ConnectPlayerFor (playerIndex);
@@ -655,7 +652,7 @@ namespace Adventure
 			}
 		}
 
-		private void AssignPresetController (GCController controller, nint playerIndex)
+		void AssignPresetController (GCController controller, nint playerIndex)
 		{
 			Player player = ConnectPlayerFor (playerIndex);
 
@@ -669,14 +666,14 @@ namespace Adventure
 			ConfigureController (controller, player);
 		}
 
-		private void ConfigureController (GCController controller, Player player)
+		void ConfigureController (GCController controller, Player player)
 		{
 			Console.WriteLine ("Assigning {0} to player {1} [{2}]", controller.VendorName, player, players.IndexOf (player));
 
 			// Assign the controller to the player.
 			player.Controller = controller;
 
-			GCControllerDirectionPadValueChangedHandler dpadMoveHandler = (GCControllerDirectionPad dpad, float xValue, float yValue) => {
+			GCControllerDirectionPadValueChangedHandler dpadMoveHandler = (dpad, xValue, yValue) => {
 				var length = GraphicsUtilities.Hypotenuse (xValue, yValue);
 				if (length > 0f) {
 					var invLength = 1 / length;
@@ -690,7 +687,7 @@ namespace Adventure
 			controller.ExtendedGamepad.LeftThumbstick.ValueChangedHandler = dpadMoveHandler;
 			controller.Gamepad.DPad.ValueChangedHandler = dpadMoveHandler;
 
-			GCControllerButtonValueChanged fireButtonHandler = (GCControllerButtonInput button, float value, bool pressed) => {
+			GCControllerButtonValueChanged fireButtonHandler = (button, value, pressed) => {
 				player.FireAction = pressed;
 			};
 
@@ -701,7 +698,7 @@ namespace Adventure
 				AddHeroFor (player);
 		}
 
-		private Player ConnectPlayerFor (nint playerIndex)
+		Player ConnectPlayerFor (nint playerIndex)
 		{
 			var player = players [(int)playerIndex];
 			if (player == null) {
@@ -741,7 +738,7 @@ namespace Adventure
 
 		#endregion
 
-		private HeroCharacter CreateHeroBy (HeroType type, CGPoint position, Player player)
+		HeroCharacter CreateHeroBy (HeroType type, CGPoint position, Player player)
 		{
 			switch (type) {
 			case HeroType.Archer:

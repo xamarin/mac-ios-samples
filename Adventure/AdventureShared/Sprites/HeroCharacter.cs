@@ -8,33 +8,33 @@ namespace Adventure
 {
 	public abstract class HeroCharacter : Character
 	{
-		private float HeroProjectileSpeed = 480;
-		private float HeroProjectileLifetime = 1;
+		const float HeroProjectileSpeed = 480;
+		const float HeroProjectileLifetime = 1;
 		// 1.0 seconds until the projectile disappears
-		private float HeroProjectileFadeOutTime = 0.6f;
+		const float HeroProjectileFadeOutTime = 0.6f;
 		// 0.6 seconds until the projectile starts to fade out
 
-		private static SKAction _sharedProjectileSoundAction;
+		static SKAction sharedProjectileSoundAction;
 
-		private SKAction ProjectileSoundAction {
+		SKAction ProjectileSoundAction {
 			get {
-				return _sharedProjectileSoundAction;
+				return sharedProjectileSoundAction;
 			}
 		}
 
-		private static SKEmitterNode _sharedDeathEmitter;
+		static SKEmitterNode sharedDeathEmitter;
 
-		private SKEmitterNode DeathEmitter {
+		SKEmitterNode DeathEmitter {
 			get {
-				return _sharedDeathEmitter;
+				return sharedDeathEmitter;
 			}
 		}
 
-		private static SKEmitterNode _sharedDamageEmitter;
+		static SKEmitterNode sharedDamageEmitter;
 
 		protected override SKEmitterNode DamageEmitter {
 			get {
-				return _sharedDamageEmitter;
+				return sharedDamageEmitter;
 			}
 		}
 
@@ -98,25 +98,20 @@ namespace Adventure
 		{
 			switch (animation) {
 			case AnimationState.Death:
-				SKEmitterNode emitter = (SKEmitterNode)((NSObject)DeathEmitter).Copy ();
+				var emitter = (SKEmitterNode)DeathEmitter.Copy ();
 				emitter.ZPosition = -0.8f;
 				AddChild (emitter);
 				GraphicsUtilities.RunOneShotEmitter (emitter, 4.5f);
 
-				RunAction (SKAction.Sequence (new SKAction[] {
+				RunAction (SKAction.Sequence (new [] {
 					SKAction.WaitForDuration (4),
-					SKAction.Run (() => {
-						CharacterScene.HeroWasKilled (this);
-					}),
+					SKAction.Run (() => CharacterScene.HeroWasKilled (this)),
 					SKAction.RemoveFromParent ()
 				}));
 				break;
 
 			case AnimationState.Attack:
 				FireProjectile ();
-				break;
-
-			default:
 				break;
 			}
 		}
@@ -127,11 +122,11 @@ namespace Adventure
 
 		public void FireProjectile ()
 		{
-			SKSpriteNode projectile = (SKSpriteNode)((NSObject)Projectile).Copy ();
+			var projectile = (SKSpriteNode)Projectile.Copy ();
 			projectile.Position = Position;
 			projectile.ZRotation = ZRotation;
 
-			SKEmitterNode emitter = (SKEmitterNode)((NSObject)ProjectileEmitter).Copy ();
+			var emitter = (SKEmitterNode)ProjectileEmitter.Copy ();
 			emitter.TargetNode = CharacterScene.GetChildNode ("world");
 			projectile.AddChild (emitter);
 
@@ -143,14 +138,14 @@ namespace Adventure
 			float y = (float)Math.Cos (rot) * HeroProjectileSpeed * HeroProjectileLifetime;
 			projectile.RunAction (SKAction.MoveBy (x, y, HeroProjectileLifetime));
 
-			projectile.RunAction (SKAction.Sequence (new SKAction[] {
+			projectile.RunAction (SKAction.Sequence (new [] {
 				SKAction.WaitForDuration (HeroProjectileFadeOutTime),
 				SKAction.FadeOutWithDuration (HeroProjectileLifetime - HeroProjectileFadeOutTime),
 				SKAction.RemoveFromParent ()
 			}));
 			projectile.RunAction (ProjectileSoundAction);
 
-			UserData userData = new UserData {
+			var userData = new UserData {
 				Player = Player
 			};
 
@@ -164,9 +159,9 @@ namespace Adventure
 
 		public static void LoadSharedAssetsOnce ()
 		{
-			_sharedProjectileSoundAction = SKAction.PlaySoundFileNamed ("magicmissile.caf", false);
-			_sharedDeathEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Death");
-			_sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Damage");
+			sharedProjectileSoundAction = SKAction.PlaySoundFileNamed ("magicmissile.caf", false);
+			sharedDeathEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Death");
+			sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("Damage");
 		}
 
 		#endregion

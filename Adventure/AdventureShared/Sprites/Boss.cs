@@ -1,10 +1,9 @@
-﻿using System;
-using Foundation;
-
+﻿
 #if __IOS__
 using UIKit;
 #else
 using AppKit;
+using Foundation;
 #endif
 
 using SpriteKit;
@@ -14,61 +13,61 @@ namespace Adventure
 {
 	public class Boss : EnemyCharacter
 	{
-		private const int BossWalkFrames = 35;
-		private const int BossIdleFrames = 32;
-		private const int BossAttackFrames = 42;
-		private const int BossDeathFrames = 45;
-		private const int BossGetHitFrames = 22;
+		const int BossWalkFrames = 35;
+		const int BossIdleFrames = 32;
+		const int BossAttackFrames = 42;
+		const int BossDeathFrames = 45;
+		const int BossGetHitFrames = 22;
 
-		private const int BossCollisionRadius = 40;
-		private const int BossChaseRadius = BossCollisionRadius * 4;
+		const int BossCollisionRadius = 40;
+		const int BossChaseRadius = BossCollisionRadius * 4;
 
-		private static SKEmitterNode _sharedDamageEmitter;
+		static SKEmitterNode sharedDamageEmitter;
 		protected override SKEmitterNode DamageEmitter {
 			get {
-				return _sharedDamageEmitter;
+				return sharedDamageEmitter;
 			}
 		}
 
-		private static SKAction _sharedDamageAction;
+		static SKAction sharedDamageAction;
 		protected override SKAction DamageAction {
 			get {
-				return _sharedDamageAction;
+				return sharedDamageAction;
 			}
 		}
 
-		private static SKTexture[] _sharedIdleAnimationFrames;
+		static SKTexture[] sharedIdleAnimationFrames;
 		protected override SKTexture[] IdleAnimationFrames {
 			get {
-				return _sharedIdleAnimationFrames;
+				return sharedIdleAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedWalkAnimationFrames;
+		static SKTexture[] sharedWalkAnimationFrames;
 		protected override SKTexture[] WalkAnimationFrames {
 			get {
-				return _sharedWalkAnimationFrames;
+				return sharedWalkAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedAttackAnimationFrames;
+		static SKTexture[] sharedAttackAnimationFrames;
 		protected override SKTexture[] AttackAnimationFrames {
 			get {
-				return _sharedAttackAnimationFrames;
+				return sharedAttackAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedGetHitAnimationFrames;
+		static SKTexture[] sharedGetHitAnimationFrames;
 		protected override SKTexture[] GetHitAnimationFrames {
 			get {
-				return _sharedGetHitAnimationFrames;
+				return sharedGetHitAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedDeathAnimationFrames;
+		static SKTexture[] sharedDeathAnimationFrames;
 		protected override SKTexture[] DeathAnimationFrames {
 			get {
-				return _sharedDeathAnimationFrames;
+				return sharedDeathAnimationFrames;
 			}
 		}
 
@@ -84,7 +83,7 @@ namespace Adventure
 			Attacking = false;
 
 			// Make it AWARE!
-			ChaseAI intelligence = new ChaseAI (this);
+			var intelligence = new ChaseAI (this);
 			intelligence.ChaseRadius = BossChaseRadius;
 			intelligence.MaxAlertRadius = BossChaseRadius * 4f;
 			Intelligence = intelligence;
@@ -118,7 +117,7 @@ namespace Adventure
 
 			// In a real game, you'd complete the level here, maybe as shown by commented code below.
 			RemoveAllActions ();
-			RunAction (SKAction.Sequence (new SKAction[] {
+			RunAction (SKAction.Sequence (new [] {
 				SKAction.WaitForDuration (3),
 				SKAction.FadeOutWithDuration (2),
 				SKAction.RemoveFromParent (),
@@ -138,7 +137,7 @@ namespace Adventure
 
 			RequestedAnimation = AnimationState.GetHit;
 
-			float damage = 2;
+			var damage = 2f;
 			bool killed = ApplyDamage (damage, other.Node);
 			if (killed)
 				CharacterScene.AddToScoreAfterEnemyKill (100, other.Node);
@@ -164,13 +163,13 @@ namespace Adventure
 				whiteColor = NSColor.White;
 			});
 			#endif
-			_sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Idle", "boss_idle_", BossIdleFrames);
-			_sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Walk", "boss_walk_", BossWalkFrames);
-			_sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Attack", "boss_attack_", BossAttackFrames);
-			_sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_GetHit", "boss_getHit_", BossGetHitFrames);
-			_sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Death", "boss_death_", BossDeathFrames);
-			_sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("BossDamage");
-			_sharedDamageAction = SKAction.Sequence (new SKAction[] {
+			sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Idle", "boss_idle_", BossIdleFrames);
+			sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Walk", "boss_walk_", BossWalkFrames);
+			sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Attack", "boss_attack_", BossAttackFrames);
+			sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_GetHit", "boss_getHit_", BossGetHitFrames);
+			sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Boss_Death", "boss_death_", BossDeathFrames);
+			sharedDamageEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("BossDamage");
+			sharedDamageAction = SKAction.Sequence (new [] {
 				SKAction.ColorizeWithColor (whiteColor, 1, 0),
 				SKAction.WaitForDuration (0.5),
 				SKAction.ColorizeWithColorBlendFactor (0, 0.1)

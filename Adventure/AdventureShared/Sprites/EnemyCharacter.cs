@@ -1,6 +1,4 @@
-﻿using System;
-
-using SpriteKit;
+﻿using SpriteKit;
 using CoreGraphics;
 
 namespace Adventure
@@ -9,13 +7,12 @@ namespace Adventure
 	{
 		public ArtificialIntelligence Intelligence { get; protected set; }
 
-		public EnemyCharacter(SKTexture texture, CGPoint position)
+		protected EnemyCharacter(SKTexture texture, CGPoint position)
 			: base(texture, position)
 		{
-
 		}
 
-		public EnemyCharacter (SKNode[] sprites, CGPoint position, float offset)
+		protected EnemyCharacter (SKNode[] sprites, CGPoint position, float offset)
 			: base (sprites, position, offset)
 		{
 		}

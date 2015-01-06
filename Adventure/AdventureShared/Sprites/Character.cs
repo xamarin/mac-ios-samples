@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Threading;
 
 using SpriteKit;
-using Foundation;
 using CoreGraphics;
 
 namespace Adventure
@@ -16,7 +14,7 @@ namespace Adventure
 		protected static readonly int DefaultNumberOfIdleFrames = 28;
 
 		protected static readonly float Velocity = 200;
-		private const float RotationSpeed = 0.06f;
+		const float RotationSpeed = 0.06f;
 
 		public bool Dying { get; private set; }
 
@@ -102,7 +100,7 @@ namespace Adventure
 			Initialize (position);
 		}
 
-		private void Initialize (CGPoint position)
+		void Initialize (CGPoint position)
 		{
 			var atlas = SKTextureAtlas.FromName ("Environment");
 
@@ -160,7 +158,7 @@ namespace Adventure
 				return true;
 			}
 
-			var emitter = (SKEmitterNode)((NSObject)DamageEmitter).Copy ();
+			var emitter = (SKEmitterNode)DamageEmitter.Copy ();
 			CharacterScene.AddNode (emitter, WorldLayer.AboveCharacter);
 			emitter.Position = Position;
 			GraphicsUtilities.RunOneShotEmitter (emitter, 0.15f);
@@ -201,7 +199,6 @@ namespace Adventure
 			SKTexture[] animationFrames = null;
 
 			switch (RequestedAnimation) {
-			default:
 			case AnimationState.Idle:
 				animationKey = "anim_idle";
 				animationFrames = IdleAnimationFrames;
@@ -234,18 +231,16 @@ namespace Adventure
 			RequestedAnimation = Dying ? AnimationState.Death : AnimationState.Idle;
 		}
 
-		private void FireAnimationForState (AnimationState animationState, SKTexture[] frames, string key)
+		void FireAnimationForState (AnimationState animationState, SKTexture[] frames, string key)
 		{
 			SKAction animAction = GetActionForKey (key);
 			if (animAction != null || frames.Length < 1)
 				return; // we already have a running animation or there aren't any frames to animate
 
 			ActiveAnimationKey = key;
-			RunAction (SKAction.Sequence (new SKAction[] {
+			RunAction (SKAction.Sequence (new [] {
 				SKAction.AnimateWithTextures (frames, AnimationSpeed, true, false),
-				SKAction.Run (() => {
-					AnimationHasCompleted (animationState);
-				})
+				SKAction.Run (() => AnimationHasCompleted (animationState))
 			}), key);
 		}
 
@@ -261,7 +256,7 @@ namespace Adventure
 			ShadowBlob.RunAction (fadeAction);
 		}
 
-		private void AnimationHasCompleted (AnimationState animationState)
+		void AnimationHasCompleted (AnimationState animationState)
 		{
 			if (Dying) {
 				Animated = false;
@@ -286,7 +281,7 @@ namespace Adventure
 				throw new ArgumentNullException ("scene");
 
 			scene.AddNode (this, WorldLayer.Character);
-			scene.AddNode (this.ShadowBlob, WorldLayer.BelowCharacter);
+			scene.AddNode (ShadowBlob, WorldLayer.BelowCharacter);
 		}
 
 		public override void RemoveFromParent ()

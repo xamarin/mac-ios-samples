@@ -1,13 +1,12 @@
 using System;
 using SpriteKit;
-using Foundation;
 using CoreGraphics;
 
 namespace Adventure
 {
 	public class Tree : ParallaxSprite
 	{
-		private const float OpaqueDistance = 400;
+		const float OpaqueDistance = 400;
 
 		public bool FadeAlpha { get; set; }
 

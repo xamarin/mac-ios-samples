@@ -8,7 +8,7 @@ namespace Adventure
 {
 	public abstract class ParallaxSprite : SKSpriteNode, ICloneable
 	{
-		private nfloat _parallaxOffset;
+		nfloat parallaxOffset;
 		public bool UsesParallaxEffect { get; set; }
 
 		public nfloat VirtualZRotation { get; set; }
@@ -16,7 +16,6 @@ namespace Adventure
 		protected ParallaxSprite(IntPtr handle)
 			: base(handle)
 		{
-
 		}
 
 		protected ParallaxSprite (SKTexture texture)
@@ -43,13 +42,13 @@ namespace Adventure
 				childNumber++;
 			}
 
-			_parallaxOffset = offset;
+			parallaxOffset = offset;
 		}
 
 		public virtual object Clone ()
 		{
-			var sprite = (ParallaxSprite)((NSObject)this).Copy ();
-			sprite._parallaxOffset = _parallaxOffset;
+			var sprite = (ParallaxSprite)Copy ();
+			sprite.parallaxOffset = parallaxOffset;
 			sprite.UsesParallaxEffect = UsesParallaxEffect;
 
 			return sprite;
@@ -90,7 +89,7 @@ namespace Adventure
 			var offsetX = (-1f + (2f * (scenePos.X / Scene.Size.Width)));
 			var offsetY = (-1f + (2f * (scenePos.Y / Scene.Size.Height)));
 
-			var delta = _parallaxOffset / (nfloat)Children.Length;
+			var delta = parallaxOffset / (nfloat)Children.Length;
 
 			int childNumber = 0;
 			foreach (var node in Children) {

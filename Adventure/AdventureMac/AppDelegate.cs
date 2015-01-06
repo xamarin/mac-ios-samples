@@ -1,20 +1,13 @@
-﻿using System;
-
-using AppKit;
+﻿using AppKit;
 using SpriteKit;
 using Foundation;
-using ObjCRuntime;
 using CoreGraphics;
 
 namespace Adventure
 {
 	public partial class AppDelegate : NSApplicationDelegate
 	{
-		private AdventureScene scene;
-
-		public AppDelegate ()
-		{
-		}
+		AdventureScene scene;
 
 		public override void DidFinishLaunching (NSNotification notification)
 		{
@@ -57,18 +50,18 @@ namespace Adventure
 		}
 
 		[Export("chooseArcher:")]
-		private void ChooseArcher(NSObject sender)
+		void ChooseArcher(NSObject sender)
 		{
 			StartGameWithHeroType (HeroType.Archer);
 		}
 
 		[Export("chooseWarrior:")]
-		private void ChooseWarrior(NSObject sender)
+		void ChooseWarrior(NSObject sender)
 		{
 			StartGameWithHeroType (HeroType.Warrior);
 		}
 
-		private void StartGameWithHeroType(HeroType type)
+		void StartGameWithHeroType(HeroType type)
 		{
 			NSAnimationContext.CurrentContext.Duration = 2.0f;
 			((NSImageView)gameLogo.Animator).AlphaValue = 0.0f;

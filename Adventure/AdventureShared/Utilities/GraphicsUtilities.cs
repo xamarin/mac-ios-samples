@@ -1,5 +1,4 @@
 ﻿using System;
-using CoreGraphics;
 
 #if __IOS__
 using UIKit;
@@ -9,10 +8,9 @@ using UIKit;
 using AppKit;
 #endif
 
-using Foundation;
 using CoreGraphics;
+using Foundation;
 using SpriteKit;
-using System.IO;
 
 namespace Adventure
 {
@@ -20,7 +18,7 @@ namespace Adventure
 	{
 		#region Return parameters
 
-		private sealed class ImageData
+		sealed class ImageData
 		{
 			public byte[] RawData { get; set; }
 
@@ -37,9 +35,9 @@ namespace Adventure
 			return new MapScaner (imgData.RawData, imgData.Width);
 		}
 
-		private static ImageData CreateImageData (string mapName)
+		static ImageData CreateImageData (string mapName)
 		{
-			byte[] bitmapData = null;
+			byte[] bitmapData;
 			CGImage inImage = GetCGImageNamed (mapName);
 
 			// Create the bitmap context.
@@ -82,7 +80,7 @@ namespace Adventure
 			#endif
 		}
 
-		private static CGImage GetCGImageNamed (string name)
+		static CGImage GetCGImageNamed (string name)
 		{
 			string[] splitedName = name.Split ('.');
 			string path = splitedName [0];
@@ -90,7 +88,6 @@ namespace Adventure
 			string fullPath = NSBundle.MainBundle.PathForResource (path, extension);
 			#if __IOS__
 			var image = UIImage.FromFile (fullPath);
-			//var image = UIImage.FromBundle ("/Assets/Environment/map_level");
 			if (image == null)
 				throw new InvalidOperationException (string.Format ("Couldn't find bundle image resource {0}", name));
 
@@ -104,12 +101,12 @@ namespace Adventure
 
 		#region Bitmap Contexts
 
-		private static CGBitmapContext CreateARGBBitmapContext (CGImage inImage, out byte[] bitmapData)
+		static CGBitmapContext CreateARGBBitmapContext (CGImage inImage, out byte[] bitmapData)
 		{
 			bitmapData = null;
 
-			CGBitmapContext context = null;
-			CGColorSpace colorSpace = null;
+			CGBitmapContext context;
+			CGColorSpace colorSpace;
 			nint bitmapByteCount = 0;
 			nint bitmapBytesPerRow = 0;
 
@@ -203,7 +200,7 @@ namespace Adventure
 
 		public static void RunOneShotEmitter (SKEmitterNode emitter, float duration)
 		{
-			emitter.RunAction (SKAction.Sequence (new SKAction[] {
+			emitter.RunAction (SKAction.Sequence (new [] {
 				SKAction.WaitForDuration (duration),
 				SKAction.Run (() => {
 					emitter.ParticleBirthRate = 0;

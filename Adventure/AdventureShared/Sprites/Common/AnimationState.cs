@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Adventure
+﻿namespace Adventure
 {
 	// The different animation states of an animated character
 	public enum AnimationState

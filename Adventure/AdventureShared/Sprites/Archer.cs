@@ -1,10 +1,8 @@
-﻿using System;
-using Foundation;
-
-#if __IOS__
+﻿#if __IOS__
 using UIKit;
 #else
 using AppKit;
+using Foundation;
 #endif
 
 using SpriteKit;
@@ -14,64 +12,64 @@ namespace Adventure
 {
 	public class Archer : HeroCharacter
 	{
-		private const int ArcherAttackFrames = 10;
-		private const int ArcherGetHitFrames = 18;
-		private const int ArcherDeathFrames = 42;
-		private const float ArcherProjectileSpeed = 8;
+		const int ArcherAttackFrames = 10;
+		const int ArcherGetHitFrames = 18;
+		const int ArcherDeathFrames = 42;
+		const float ArcherProjectileSpeed = 8;
 
-		private static SKSpriteNode _sharedProjectile;
+		static SKSpriteNode sharedProjectile;
 		public override SKSpriteNode Projectile {
 			get {
-				return _sharedProjectile;
+				return sharedProjectile;
 			}
 		}
 
-		private static SKEmitterNode _sharedProjectileEmitter;
+		static SKEmitterNode sharedProjectileEmitter;
 		public override SKEmitterNode ProjectileEmitter {
 			get {
-				return _sharedProjectileEmitter;
+				return sharedProjectileEmitter;
 			}
 		}
 
-		private static SKTexture[] _sharedIdleAnimationFrames;
+		static SKTexture[] sharedIdleAnimationFrames;
 		protected override SKTexture[]IdleAnimationFrames {
 			get {
-				return _sharedIdleAnimationFrames;
+				return sharedIdleAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedWalkAnimationFrames;
+		static SKTexture[] sharedWalkAnimationFrames;
 		protected override SKTexture[] WalkAnimationFrames {
 			get {
-				return _sharedWalkAnimationFrames;
+				return sharedWalkAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedAttackAnimationFrames;
+		static SKTexture[] sharedAttackAnimationFrames;
 		protected override SKTexture[] AttackAnimationFrames {
 			get {
-				return _sharedAttackAnimationFrames;
+				return sharedAttackAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedGetHitAnimationFrames;
+		static SKTexture[] sharedGetHitAnimationFrames;
 		protected override SKTexture[] GetHitAnimationFrames {
 			get {
-				return _sharedGetHitAnimationFrames;
+				return sharedGetHitAnimationFrames;
 			}
 		}
 
-		private static SKTexture[] _sharedDeathAnimationFrames;
+		static SKTexture[] sharedDeathAnimationFrames;
 		protected override SKTexture[] DeathAnimationFrames {
 			get {
-				return _sharedDeathAnimationFrames;
+				return sharedDeathAnimationFrames;
 			}
 		}
 
-		private static SKAction _sharedDamageAction;
+		static SKAction sharedDamageAction;
 		protected override SKAction DamageAction {
 			get {
-				return _sharedDamageAction;
+				return sharedDamageAction;
 			}
 		}
 
@@ -92,20 +90,20 @@ namespace Adventure
 				whiteColor = NSColor.White;
 			});
 			#endif
-			_sharedProjectile = SKSpriteNode.FromColor (whiteColor, new CGSize (2, 24));
-			_sharedProjectile.PhysicsBody = SKPhysicsBody.CreateCircularBody (ProjectileCollisionRadius);
-			_sharedProjectile.Name = @"Projectile";
-			_sharedProjectile.PhysicsBody.CategoryBitMask = (uint)ColliderType.Projectile;
-			_sharedProjectile.PhysicsBody.CollisionBitMask = (uint)ColliderType.Wall;
-			_sharedProjectile.PhysicsBody.ContactTestBitMask = _sharedProjectile.PhysicsBody.CollisionBitMask;
+			sharedProjectile = SKSpriteNode.FromColor (whiteColor, new CGSize (2, 24));
+			sharedProjectile.PhysicsBody = SKPhysicsBody.CreateCircularBody (ProjectileCollisionRadius);
+			sharedProjectile.Name = @"Projectile";
+			sharedProjectile.PhysicsBody.CategoryBitMask = (uint)ColliderType.Projectile;
+			sharedProjectile.PhysicsBody.CollisionBitMask = (uint)ColliderType.Wall;
+			sharedProjectile.PhysicsBody.ContactTestBitMask = sharedProjectile.PhysicsBody.CollisionBitMask;
 
-			_sharedProjectileEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("ArcherProjectile");
-			_sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Idle", "archer_idle_", DefaultNumberOfIdleFrames);
-			_sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Walk", "archer_walk_", DefaultNumberOfWalkFrames);
-			_sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Attack", "archer_attack_", ArcherAttackFrames);
-			_sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_GetHit", "archer_getHit_", ArcherGetHitFrames);
-			_sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Death", "archer_death_", ArcherDeathFrames);
-			_sharedDamageAction = SKAction.Sequence (new SKAction[] {
+			sharedProjectileEmitter = GraphicsUtilities.EmitterNodeWithEmitterNamed ("ArcherProjectile");
+			sharedIdleAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Idle", "archer_idle_", DefaultNumberOfIdleFrames);
+			sharedWalkAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Walk", "archer_walk_", DefaultNumberOfWalkFrames);
+			sharedAttackAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Attack", "archer_attack_", ArcherAttackFrames);
+			sharedGetHitAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_GetHit", "archer_getHit_", ArcherGetHitFrames);
+			sharedDeathAnimationFrames = GraphicsUtilities.LoadFramesFromAtlas ("Archer_Death", "archer_death_", ArcherDeathFrames);
+			sharedDamageAction = SKAction.Sequence (new [] {
 				SKAction.ColorizeWithColor (whiteColor, 10, 0),
 				SKAction.WaitForDuration (0.75),
 				SKAction.ColorizeWithColorBlendFactor (0, 0.25)
