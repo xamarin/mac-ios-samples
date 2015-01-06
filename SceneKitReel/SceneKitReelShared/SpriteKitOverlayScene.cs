@@ -11,7 +11,7 @@ using CoreGraphics;
 
 namespace SceneKitReel
 {
-	public class SpriteKitOverlayScene : SKScene
+	public sealed class SpriteKitOverlayScene : SKScene
 	{
 		public SKNode NextButton { get; set; }
 
@@ -37,7 +37,6 @@ namespace SceneKitReel
 			var maringX = -60.0f;
 			#if __IOS__
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) {
-				marginY = 30;
 				marginY = 30;
 			}
 			#endif
@@ -90,7 +89,7 @@ namespace SceneKitReel
 
 				Label.Text = label;
 				Label.Alpha = 0.0f;
-				Label.RunAction (SKAction.Sequence (new SKAction [] {
+				Label.RunAction (SKAction.Sequence (new [] {
 					SKAction.WaitForDuration (0.5),
 					SKAction.FadeInWithDuration (0.5)
 				}));

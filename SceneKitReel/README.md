@@ -13,7 +13,8 @@ Build Requirements
 ------------------
 
 * Xcode 6.0 and OS X v10.10.
-* Xamarin.Mac v1.11.1.0 or later.
+* Xamarin.iOS v8.4.0.47 or later.
+* Xamarin.Mac v1.11.3.0 or later.
 
 Author
 ------

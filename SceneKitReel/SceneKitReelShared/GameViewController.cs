@@ -105,7 +105,6 @@ namespace SceneKitReel
 		//physics fields slide
 		SCNNode FieldEmitter;
 		SCNNode FieldOwner;
-		SCNNode InteractiveField;
 
 		//SpriteKit integration slide
 		SCNNode Torus;
@@ -116,7 +115,6 @@ namespace SceneKitReel
 		nint ShaderStage;
 
 		//camera manipulation
-		SCNVector3 CameraBaseOrientation;
 		CGPoint InitialOffset, LastOffset;
 		List<SCNMatrix4> CameraHandleTransforms = new List<SCNMatrix4> (SLIDE_COUNT);
 		List<SCNMatrix4> CameraOrientationTransforms = new List<SCNMatrix4> (SLIDE_COUNT);
@@ -131,7 +129,7 @@ namespace SceneKitReel
 		static List<SCNNode> PhysicBoxes;
 		static int BoxesCount = 0;
 
-		private static float RandFloat (double min, double max)
+		static float RandFloat (double min, double max)
 		{
 			var random = new Random ((int)DateTime.Now.Ticks);
 			return (float)(min + (max - min) * random.NextDouble ());
@@ -164,7 +162,7 @@ namespace SceneKitReel
 
 		#region Setup
 
-		private void Setup ()
+		void Setup ()
 		{
 			SceneView = (SCNView)this.View;
 
@@ -220,7 +218,7 @@ namespace SceneKitReel
 			#endif
 		}
 
-		private void SetupScene ()
+		void SetupScene ()
 		{
 			Scene = SCNScene.Create ();
 
@@ -229,7 +227,7 @@ namespace SceneKitReel
 			SetupIntroEnvironment ();
 		}
 
-		private void SetupEnvironment ()
+		void SetupEnvironment ()
 		{
 			// |_   cameraHandle
 			//   |_   cameraOrientation
@@ -322,7 +320,7 @@ namespace SceneKitReel
 			Scene.RootNode.AddChildNode (FloorNode);
 		}
 
-		private void SetupSceneElements ()
+		void SetupSceneElements ()
 		{
 			// create the wall geometry
 			var wallGeometry = SCNPlane.Create (800, 200);
@@ -404,7 +402,7 @@ namespace SceneKitReel
 			Scene.RootNode.AddChildNode (wallNode);
 		}
 
-		private void SetupIntroEnvironment ()
+		void SetupIntroEnvironment ()
 		{
 			IntroductionStep = 1;
 
@@ -491,7 +489,7 @@ namespace SceneKitReel
 			#else
 			text.Font = NSFont.FromFontName ("Avenir Heavy", 30);
 			#endif
-			text.Materials = new SCNMaterial[] { TextMaterial () };
+			text.Materials = new [] { TextMaterial () };
 			textNode = SCNNode.Create ();
 			textNode.Geometry = text;
 			textNode.Scale = new SCNVector3 (TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
@@ -513,7 +511,7 @@ namespace SceneKitReel
 			#else
 			text.Font = NSFont.FromFontName ("Avenir Heavy", 50);
 			#endif
-			text.Materials = new SCNMaterial[] { TextMaterial () };
+			text.Materials = new [] { TextMaterial () };
 			textNode = SCNNode.Create ();
 			textNode.Geometry = text;
 			textNode.Scale = new SCNVector3 (TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
@@ -547,7 +545,7 @@ namespace SceneKitReel
 		}
 
 		// the material to use for text
-		private SCNMaterial TextMaterial ()
+		SCNMaterial TextMaterial ()
 		{
 			if (Material == null) {
 				Material = SCNMaterial.Create ();
@@ -563,7 +561,7 @@ namespace SceneKitReel
 		}
 
 		// switch to the next introduction step
-		private void NextIntroductionStep ()
+		void NextIntroductionStep ()
 		{
 			IntroductionStep++;
 
@@ -620,7 +618,7 @@ namespace SceneKitReel
 				SpotLightNode.EulerAngles = new SCNVector3 (-(float)Math.PI / 2, 0, 0);
 				SpotLightNode.Light.SpotOuterAngle = 120;
 
-				var action = SCNAction.Sequence (new SCNAction[] {
+				var action = SCNAction.Sequence (new [] {
 					SCNAction.Wait (1),
 					SCNAction.RepeatActionForever (SCNAction.RotateBy (0, NMath.PI, 0, 2))
 				});
@@ -678,7 +676,7 @@ namespace SceneKitReel
 		}
 
 		//restore the default camera orientation and position
-		private void RestoreCameraAngle ()
+		void RestoreCameraAngle ()
 		{
 			//reset drag offset
 			InitialOffset = new CGPoint (0, 0);
@@ -778,7 +776,7 @@ namespace SceneKitReel
 
 		// return a new physically based box at the specified position
 		// sometimes generate a ball instead of a box for more variety
-		private SCNNode GetBox (SCNVector3 position)
+		SCNNode GetBox (SCNVector3 position)
 		{
 			if (PhysicBoxes == null) {
 				PhysicBoxes = new List<SCNNode> ();
@@ -845,7 +843,7 @@ namespace SceneKitReel
 
 		//apply an explosion force at the specified location to the specified nodes
 		//remove from the nodes from the scene graph is removeOnCompletion is set to yes
-		private void Explosion (SCNVector3 center, List<SCNNode> nodes, bool removeOnCompletion)
+		void Explosion (SCNVector3 center, List<SCNNode> nodes, bool removeOnCompletion)
 		{
 			var c = center;
 
@@ -879,7 +877,7 @@ namespace SceneKitReel
 				node.PhysicsBody.ApplyForce (direction, removeOnCompletion ? SCNVector3.Zero : new SCNVector3 (RandFloat (-0.2, 0.2), RandFloat (-0.2, 0.2), RandFloat (-0.2, 0.2)), true);
 
 				if (removeOnCompletion) {
-					node.RunAction (SCNAction.Sequence (new SCNAction[] {
+					node.RunAction (SCNAction.Sequence (new [] {
 						SCNAction.Wait (1.0),
 						SCNAction.FadeOut (0.125),
 						SCNAction.RemoveFromParentNode ()
@@ -889,7 +887,7 @@ namespace SceneKitReel
 		}
 
 		// present physics slide
-		private void ShowPhysicsSlide ()
+		void ShowPhysicsSlide ()
 		{
 			var count = 80;
 			var spread = 6.0f;
@@ -933,21 +931,21 @@ namespace SceneKitReel
 				if (--remainingCount < 0)
 					Timer.Invalidate ();
 
-				right = right ? false : true;
+				right = !right;
 			});
 
 			NSRunLoop.Current.AddTimer (Timer, NSRunLoopMode.Default);
 		}
 
 		//remove physics slide
-		private void OrderOutPhysics ()
+		void OrderOutPhysics ()
 		{
 			//move physics out
 			Explosion (new SCNVector3 (0, 0, 0), Boxes, true);
 			Boxes = null;
 
 			//add invisible wall
-			var scene = ((SCNView)this.View).Scene;
+			var scene = ((SCNView)View).Scene;
 			scene.RootNode.AddChildNode (InvisibleWallForPhysicsSlide);
 		}
 
@@ -956,10 +954,10 @@ namespace SceneKitReel
 		#region Particles
 
 		//present particle slide
-		private void ShowParticlesSlide ()
+		void ShowParticlesSlide ()
 		{
 			//restore defaults
-			((SCNView)this.View).Scene.PhysicsWorld.Gravity = new SCNVector3 (0, -9.8f, 0);
+			((SCNView)View).Scene.PhysicsWorld.Gravity = new SCNVector3 (0, -9.8f, 0);
 
 			//add truck
 			var fireTruckScene = SCNScene.FromFile ("assets.scnassets/models/firetruck");
@@ -997,11 +995,11 @@ namespace SceneKitReel
 
 			var moveIn = SCNAction.MoveBy (0, -215, 0, 1.0);
 			moveIn.TimingMode = SCNActionTimingMode.EaseOut;
-			colliderNode.RunAction (SCNAction.Sequence (new SCNAction[] { SCNAction.Wait (2), moveIn }));
+			colliderNode.RunAction (SCNAction.Sequence (new [] { SCNAction.Wait (2), moveIn }));
 
 			var animation = CABasicAnimation.FromKeyPath ("eulerAngles");
-			animation.From = NSNumber.FromVector (new SCNVector3 (0, 0, 0));
-			animation.To = NSNumber.FromVector (new SCNVector3 (0, 0, 2 * (float)Math.PI));
+			animation.From = NSValue.FromVector (new SCNVector3 (0, 0, 0));
+			animation.To = NSValue.FromVector (new SCNVector3 (0, 0, 2 * (float)Math.PI));
 			animation.BeginTime = CAAnimation.CurrentMediaTime () + 0.5f;
 			animation.Duration = 2;
 			animation.RepeatCount = float.MaxValue;
@@ -1034,7 +1032,7 @@ namespace SceneKitReel
 			ps.ParticleImage = new NSString ("assets.scnassets/textures/spark.png");
 			ps.BirthRate = 0;
 			ps.SpeedFactor = 3.0f;
-			ps.ColliderNodes = new SCNNode[] { FloorNode, colliderNode };
+			ps.ColliderNodes = new [] { FloorNode, colliderNode };
 			emitter.AddParticleSystem (ps);
 
 			var tr = SCNAction.MoveBy (new SCNVector3 (60, 0, 0), 1);
@@ -1042,7 +1040,7 @@ namespace SceneKitReel
 		}
 
 		//remove particle slide
-		private void OrderOutParticles ()
+		void OrderOutParticles ()
 		{
 			//remove fire truck
 			FireTruck.RemoveFromParentNode ();
@@ -1059,11 +1057,11 @@ namespace SceneKitReel
 
 		#region PhysicsFields
 
-		private void MoveEmitter (CGPoint p)
+		void MoveEmitter (CGPoint p)
 		{
 			var scnView = (SCNView)this.View;
 			var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, 50));
-			var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, (float)pTmp.Z));
+			var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
 			p3d.Z = 50;
 			p3d.Y = (float)Math.Max (p3d.Y, 5);
 			FieldOwner.Position = p3d;
@@ -1071,9 +1069,9 @@ namespace SceneKitReel
 		}
 
 		//present physics field slide
-		private void ShowPhysicsFields ()
+		void ShowPhysicsFields ()
 		{
-			float dz = 50;
+			var dz = 50f;
 
 			SCNTransaction.Begin ();
 			SCNTransaction.AnimationDuration = 0.75f;
@@ -1118,7 +1116,7 @@ namespace SceneKitReel
 			cubMap.AddObjects (new NSObject[] { right, left, top, bottom, front, back });
 			ps.ParticleImage = cubMap;
 			ps.FresnelExponent = 2;
-			ps.ColliderNodes = new SCNNode[] { FloorNode, MainWall };
+			ps.ColliderNodes = new [] { FloorNode, MainWall };
 
 			ps.EmitterShape = SCNBox.Create (200, 0, 100, 0);
 
@@ -1139,7 +1137,7 @@ namespace SceneKitReel
 		}
 
 		//remove physics field slide
-		private void OrderOutPhysicsFields ()
+		void OrderOutPhysicsFields ()
 		{
 			SCNTransaction.Begin ();
 			SCNTransaction.AnimationDuration = 0.75f;
@@ -1148,7 +1146,7 @@ namespace SceneKitReel
 			SCNTransaction.Commit ();
 
 			//move camera
-			float dz = 50;
+			var dz = 50f;
 			SCNTransaction.Begin ();
 			SCNTransaction.AnimationDuration = 0.75f;
 			CameraHandle.Position = new SCNVector3 (CameraHandle.Position.X, CameraHandle.Position.Y, CameraHandle.Position.Z - dz);
@@ -1165,7 +1163,7 @@ namespace SceneKitReel
 		#region SpriteKit
 
 		// add a color "splash" at the specified location in the SKScene used as a material
-		private void AddPaint (CGPoint p, SKColor color)
+		void AddPaint (CGPoint p, SKColor color)
 		{
 			var skScene = (SKScene)Torus.Geometry.FirstMaterial.Diffuse.Contents;
 
@@ -1204,7 +1202,7 @@ namespace SceneKitReel
 		[Export ("physicsWorld:didBeginContact:")]
 		public void DidBeginContact (SCNPhysicsWorld world, SCNPhysicsContact contact)
 		{
-			SCNNode ball = null;
+			SCNNode ball;
 
 			if (contact.NodeA.PhysicsBody.Type == SCNPhysicsBodyType.Dynamic) {
 				ball = contact.NodeA;
@@ -1213,9 +1211,7 @@ namespace SceneKitReel
 			}
 
 			if (ball != null) {
-				DispatchQueue.MainQueue.DispatchAsync (() => {
-					ball.RemoveFromParentNode ();
-				});
+				DispatchQueue.MainQueue.DispatchAsync (ball.RemoveFromParentNode);
 
 				var plokCopy = (SCNParticleSystem)Plok.Copy ();
 				plokCopy.ParticleImage = Plok.ParticleImage; // to workaround an bug in seed #1
@@ -1237,7 +1233,7 @@ namespace SceneKitReel
 		}
 
 		//present spritekit integration slide
-		private void ShowSpriteKitSlide ()
+		void ShowSpriteKitSlide ()
 		{
 			//place camera
 			SCNTransaction.Begin ();
@@ -1280,19 +1276,17 @@ namespace SceneKitReel
 
 			SCNTransaction.Begin ();
 			SCNTransaction.AnimationDuration = 1;
-			SCNTransaction.SetCompletionBlock (() => {
-				StartLaunchingColors ();
-			});
+			SCNTransaction.SetCompletionBlock (StartLaunchingColors);
 
 			Torus.Opacity = 1.0f;
 
 			SCNTransaction.Commit ();
 		}
 
-		private void StartLaunchingColors ()
+		void StartLaunchingColors ()
 		{
 			//tweak physics
-			((SCNView)this.View).Scene.PhysicsWorld.Gravity = new SCNVector3 (0, -70, 0);
+			((SCNView)View).Scene.PhysicsWorld.Gravity = new SCNVector3 (0, -70, 0);
 
 			// drop rigid bodies
 			var intervalTime = 0.1;
@@ -1330,13 +1324,13 @@ namespace SceneKitReel
 				ball.PhysicsBody.Velocity = new SCNVector3 (PAINT_FACTOR * RandFloat (-10, 10), 70 + RandFloat (0, 40), PAINT_FACTOR * -30.0f);
 				SCNTransaction.Commit ();
 
-				right = right ? false : true;
+				right = !right;
 			});
 
 			NSRunLoop.Current.AddTimer (Timer, NSRunLoopMode.Default);
 		}
 
-		private void OrderOutSpriteKit ()
+		void OrderOutSpriteKit ()
 		{
 			Torus.RemoveFromParentNode ();
 			Scene.PhysicsWorld.ContactDelegate = null;
@@ -1346,7 +1340,7 @@ namespace SceneKitReel
 
 		#region Shaders
 
-		private void ShowNextShaderStage ()
+		void ShowNextShaderStage ()
 		{
 			ShaderStage++;
 
@@ -1384,7 +1378,7 @@ namespace SceneKitReel
 			SCNTransaction.Commit ();
 		}
 
-		private void ShowShadersSlide ()
+		void ShowShadersSlide ()
 		{
 			ShaderStage = 0;
 
@@ -1455,27 +1449,27 @@ namespace SceneKitReel
 			ShadedNode = node;
 
 			//redraw forever
-			((SCNView)this.View).Playing = true;
-			((SCNView)this.View).Loops = true;
+			((SCNView)View).Playing = true;
+			((SCNView)View).Loops = true;
 		}
 
-		private void OrderOutShaders ()
+		void OrderOutShaders ()
 		{
-			ShaderGroupNode.RunAction (SCNAction.Sequence (new SCNAction[] {
+			ShaderGroupNode.RunAction (SCNAction.Sequence (new [] {
 				SCNAction.ScaleTo (0.01f, 1.0),
 				SCNAction.RemoveFromParentNode ()
 			}));
 			ShaderGroupNode = null;
-			((SCNView)this.View).Playing = false;
+			((SCNView)View).Playing = false;
 		}
 
 		#endregion
 
 		#region Presentation logic
 
-		private void PresentStep (nint step)
+		void PresentStep (nint step)
 		{
-			var overlay = (SpriteKitOverlayScene)((SCNView)this.View).OverlayScene;
+			var overlay = (SpriteKitOverlayScene)((SCNView)View).OverlayScene;
 
 			if (CameraHandleTransforms [(int)step].M11 == 0) {
 				CameraHandleTransforms [(int)step] = CameraHandle.Transform;
@@ -1485,20 +1479,18 @@ namespace SceneKitReel
 			switch (step) {
 			case 1:
 				overlay.ShowLabel ("Physics");
-				overlay.RunAction (SKAction.Sequence (new SKAction[] { SKAction.WaitForDuration (2), SKAction.Run (() => {
+				overlay.RunAction (SKAction.Sequence (new [] { SKAction.WaitForDuration (2), SKAction.Run (() => {
 						if (Step == 1)
 							overlay.ShowLabel (null);
 					})
 				}));
 
 				var popTime = new DispatchTime (DispatchTime.Now, (long)(0.0 * NSEC_PER_SEC));
-				DispatchQueue.MainQueue.DispatchAfter (popTime, () => {
-					ShowPhysicsSlide ();
-				});
+				DispatchQueue.MainQueue.DispatchAfter (popTime, ShowPhysicsSlide);
 				break;
 			case 2:
 				overlay.ShowLabel ("Particles");
-				overlay.RunAction (SKAction.Sequence (new SKAction[] { SKAction.WaitForDuration (4), SKAction.Run (() => {
+				overlay.RunAction (SKAction.Sequence (new [] { SKAction.WaitForDuration (4), SKAction.Run (() => {
 						if (Step == 2)
 							overlay.ShowLabel (null);
 					})
@@ -1508,7 +1500,7 @@ namespace SceneKitReel
 				break;
 			case 3:
 				overlay.ShowLabel ("Physics Fields");
-				overlay.RunAction (SKAction.Sequence (new SKAction[] { SKAction.WaitForDuration (2), SKAction.Run (() => {
+				overlay.RunAction (SKAction.Sequence (new [] { SKAction.WaitForDuration (2), SKAction.Run (() => {
 						if (Step == 3)
 							overlay.ShowLabel (null);
 					})
@@ -1518,7 +1510,7 @@ namespace SceneKitReel
 				break;
 			case 4:
 				overlay.ShowLabel ("SceneKit + SpriteKit");
-				overlay.RunAction (SKAction.Sequence (new SKAction[] { SKAction.WaitForDuration (4), SKAction.Run (() => {
+				overlay.RunAction (SKAction.Sequence (new [] { SKAction.WaitForDuration (4), SKAction.Run (() => {
 						if (Step == 4)
 							overlay.ShowLabel (null);
 					})
@@ -1533,7 +1525,7 @@ namespace SceneKitReel
 			}
 		}
 
-		private void OrderOutStep (nint step)
+		void OrderOutStep (nint step)
 		{
 			switch (step) {
 			case 1:
@@ -1554,7 +1546,7 @@ namespace SceneKitReel
 			}
 		}
 
-		private void Next ()
+		void Next ()
 		{
 			if (Step >= 5)
 				return;
@@ -1564,7 +1556,7 @@ namespace SceneKitReel
 			PresentStep (Step);
 		}
 
-		private void Previous ()
+		void Previous ()
 		{
 			if (Step <= 1)
 				return;
@@ -1574,9 +1566,7 @@ namespace SceneKitReel
 
 			SCNTransaction.Begin ();
 			SCNTransaction.AnimationDuration = 0.75f;
-			SCNTransaction.SetCompletionBlock (() => {
-				PresentStep (Step);
-			});
+			SCNTransaction.SetCompletionBlock (() => PresentStep (Step));
 
 			CameraHandle.Transform = CameraHandleTransforms [(int)Step];
 			CameraOrientation.Transform = CameraOrientationTransforms [(int)Step];
@@ -1644,7 +1634,7 @@ namespace SceneKitReel
 			if (Step == 2) {
 				//particles
 				var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, 0));
-				var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, (float)pTmp.Z));
+				var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
 				var handlePos = Handle.WorldTransform;
 
 
@@ -1689,12 +1679,12 @@ namespace SceneKitReel
 			RestoreCameraAngle ();
 		}
 
-		private void PreventAccidentalNext (nfloat delay)
+		void PreventAccidentalNext (nfloat delay)
 		{
 			PreventNext = true;
 
 			//disable the next button for "delay" seconds to prevent accidental tap
-			var overlay = (SpriteKitOverlayScene)((SCNView)this.View).OverlayScene;
+			var overlay = (SpriteKitOverlayScene)((SCNView)View).OverlayScene;
 			overlay.NextButton.RunAction (SKAction.FadeAlphaBy (-0.5f, 0.5f));
 			overlay.PreviousButton.RunAction (SKAction.FadeAlphaBy (-0.5f, 0.5f));
 			var popTime = new DispatchTime (DispatchTime.Now, (long)(delay * NSEC_PER_SEC));
@@ -1708,7 +1698,7 @@ namespace SceneKitReel
 		public void HandleTap (CGPoint p)
 		{
 			//test buttons
-			SKScene skScene = ((SCNView)this.View).OverlayScene;
+			SKScene skScene = ((SCNView)View).OverlayScene;
 			var p2D = skScene.ConvertPointFromView (p);
 			var node = skScene.GetNodeAtPoint (p2D);
 
@@ -1724,13 +1714,13 @@ namespace SceneKitReel
 				return;
 			}
 
-			if (ignoreNext == false) {
+			if (!ignoreNext) {
 				if (Step == 0 || node.Name == "next" || node.Name == "back") {
 					var shouldGoBack = node.Name == "back";
 
 					if (node.Name == "next") {
 						((SKSpriteNode)node).Color = SKColorHelper.FromCommonRGBA (1, 0, 0, 1);
-						node.RunAction (SKAction.CustomActionWithDuration (0.7, (SKNode spriteNode, nfloat elapsedTime) => {
+						node.RunAction (SKAction.CustomActionWithDuration (0.7, (spriteNode, elapsedTime) => {
 							((SKSpriteNode)spriteNode).ColorBlendFactor = 0.7f - elapsedTime;
 						}));
 					}
@@ -1752,7 +1742,7 @@ namespace SceneKitReel
 				//bounce physics!
 				var scnView = (SCNView)this.View;
 				var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, -60));
-				var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, (float)pTmp.Z));
+				var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
 
 				p3d.Y = 0;
 				p3d.Z = 0;

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Drawing;
-using System.CodeDom.Compiler;
 
 using AppKit;
-using Foundation;
 using CoreGraphics;
 
 namespace SceneKitReel
@@ -15,7 +12,7 @@ namespace SceneKitReel
 		public GameView (IntPtr Handle) : base (Handle) {}
 
 		// forward click event to the game view controller
-		public override void MouseDown (AppKit.NSEvent theEvent)
+		public override void MouseDown (NSEvent theEvent)
 		{
 			ClickLocation = ConvertPointFromView (theEvent.LocationInWindow, null);
 
