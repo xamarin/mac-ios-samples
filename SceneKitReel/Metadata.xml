@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SampleMetadata>
 	<ID>e2167378-ec4e-4db8-bc61-c18e9d2755c2</ID>
-	<Description>This application render a 3D environment and presents a series of slides with `SceneKit` objects.</Description>
+	<Brief>This application render a 3D environment and presents a series of slides with SceneKit objects.</Brief>
 	<IsFullApplication>true</IsFullApplication>
 	<Level>Intermediate</Level>
 	<Tags>Games, Graphics, iOS8, SceneKit, Yosemite</Tags>

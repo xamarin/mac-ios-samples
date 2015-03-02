@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <SampleMetadata>
 	<ID>b654b13e-d18b-47f1-b5a2-c3deedbeb3ac</ID>
-	<Description>This sample shows how to build a simple 2D game for iOS and OSX using SpriteKit.</Description>
+	<Brief>This sample shows how to build a simple 2D game for iOS and OSX using SpriteKit.</Brief>
 	<IsFullApplication>true</IsFullApplication>
 	<Level>Intermediate</Level>
 	<Tags>Games, Graphics</Tags>
