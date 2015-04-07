@@ -40,6 +40,8 @@
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>XSAppIconAssets</key>
-	<string>Assets/UI/Assets - iOS.xcassets/AppIcon.appiconset</string>
+	<string>Assets/Assets - iOS.xcassets/AppIcon.appiconset</string>
+	<key>XSLaunchImageAssets</key>
+	<string>Assets/Assets - iOS.xcassets/LaunchImage.launchimage</string>
 </dict>
 </plist>

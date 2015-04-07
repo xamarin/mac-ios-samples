@@ -7,7 +7,7 @@
     <ProjectGuid>{56AF2239-6869-4FBF-AD56-23A71859AB63}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Adventure</RootNamespace>
-    <IPhoneResourcePrefix>Resources;Assets\Environment;Assets\Particles;Assets\Sounds;Assets\UI;Assets\Texture Atlases\Archer;Assets\Texture Atlases\Boss;Assets\Texture Atlases\Particles;Assets\Sounds;Assets\UI;Assets\Texture Atlases\Archer;Assets\Texture Atlases\Boss;Assets\Texture Atlases\Goblin;Assets\Texture Atlases\Warrior;Assets\Texture Atlases</IPhoneResourcePrefix>
+    <IPhoneResourcePrefix>Resources;Assets\Environment;Assets\Particles;Assets\Sounds;Assets\UI;Assets\Texture Atlases\Archer;Assets\Texture Atlases\Boss;Assets\Texture Atlases\Particles;Assets\Texture Atlases\Archer;Assets\Texture Atlases\Boss;Assets\Texture Atlases\Goblin;Assets\Texture Atlases\Warrior;Assets\Texture Atlases</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +25,9 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AssemblyName>AdventureiOS</AssemblyName>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -151,17 +154,8 @@
     <BundleResource Include="Assets\Particles\Spawn.sks" />
     <BundleResource Include="Assets\Particles\star.png" />
     <BundleResource Include="Assets\Particles\WarriorProjectile.sks" />
-    <BundleResource Include="Assets\UI\Assets - iOS.xcassets\LaunchImage.launchimage\Default" />
-    <BundleResource Include="Assets\UI\Assets - iOS.xcassets\LaunchImage.launchimage\Default-568h" />
     <BundleResource Include="Assets\UI\button_archer.png" />
     <BundleResource Include="Assets\UI\button_warrior.png" />
-    <BundleResource Include="Assets\UI\Default.png" />
-    <BundleResource Include="Assets\UI\Default%402x.png" />
-    <BundleResource Include="Assets\UI\Default-568h%402x.png" />
-    <BundleResource Include="Assets\UI\Default-Landscape.png" />
-    <BundleResource Include="Assets\UI\Default-Landscape%402x.png" />
-    <BundleResource Include="Assets\UI\Default-Portrait.png" />
-    <BundleResource Include="Assets\UI\Default-Portrait%402x.png" />
     <BundleResource Include="Assets\UI\iconWarrior_blue.png" />
     <BundleResource Include="Assets\UI\iconWarrior_green.png" />
     <BundleResource Include="Assets\UI\iconWarrior_pink.png" />
@@ -171,6 +165,8 @@
     <BundleResource Include="Assets\Sounds\magicmissile.caf" />
     <BundleResource Include="Assets\Environment\map_level.png" />
     <BundleResource Include="Assets\Environment\map_trees.png" />
+    <BundleResource Include="Assets\Assets - iOS.xcassets\LaunchImage.launchimage\Default" />
+    <BundleResource Include="Assets\Assets - iOS.xcassets\LaunchImage.launchimage\Default-568h" />
   </ItemGroup>
   <ItemGroup>
     <AtlasTexture Include="Assets\Texture Atlases\Archer\Archer_Attack.atlas\archer_attack_0001.png" />
@@ -1835,28 +1831,18 @@
     <AtlasTexture Include="Assets\Texture Atlases\Warrior\Warrior_Walk.atlas\warrior_walk_0028.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon120.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon152.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon29.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon40.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon58.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon58-1.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon76.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon80.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\appicon80-1.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\LaunchImage.launchimage\Default%402x.png" />
-    <ImageAsset Include="Assets\UI\Assets - iOS.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon1024.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon128.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon16.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon256.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon256-1.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon32.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon32-1.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon512.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon512-1.png" />
-    <ImageAsset Include="Assets\UI\Assets - OS X.xcassets\AppIcon.appiconset\osxicon64.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon120.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon152.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon29.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon40.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon58.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon58-1.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon76.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon80.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\appicon80-1.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\LaunchImage.launchimage\Default%402x.png" />
+    <ImageAsset Include="Assets\Assets - iOS.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
   </ItemGroup>
 </Project>
