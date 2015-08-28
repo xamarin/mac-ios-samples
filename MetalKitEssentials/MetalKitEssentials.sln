@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MetalKitEssentials.Shared", "MetalKitEssentials.Shared\MetalKitEssentials.Shared.shproj", "{633F33FB-766B-4DB9-8F6A-2452359E4CD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalKitEssentials.iOS", "MetalKitEssentials.iOS\MetalKitEssentials.iOS.csproj", "{EADF2F60-DC7B-4D90-A113-E43E061AAB78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalKitEssentials.Mac", "MetalKitEssentials.Mac\MetalKitEssentials.Mac.csproj", "{3348FFBF-1401-4E10-AA27-718440E25D3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Release|iPhone.Build.0 = Release|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{3348FFBF-1401-4E10-AA27-718440E25D3F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Debug|iPhone.Build.0 = Debug|iPhone
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Release|iPhone.ActiveCfg = Release|iPhone
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Release|iPhone.Build.0 = Release|iPhone
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{EADF2F60-DC7B-4D90-A113-E43E061AAB78}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+EndGlobal

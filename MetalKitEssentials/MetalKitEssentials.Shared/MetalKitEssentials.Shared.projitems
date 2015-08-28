@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{633F33FB-766B-4DB9-8F6A-2452359E4CD0}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MetalKitEssentials.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)MetalKitEssentialsViewController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MetalKitEssentialsViewController.designer.cs">
+      <DependentUpon>MetalKitEssentialsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MetalKitEssentialsMesh.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Uniforms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MetalKitEssentialsSubmesh.cs" />
+  </ItemGroup>
+</Project>

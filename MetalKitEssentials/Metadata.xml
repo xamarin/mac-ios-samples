@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SampleMetadata>
+  <ID>46a6785e-3bfb-45aa-a33d-4da8b775861d</ID>
+  <IsFullApplication>false</IsFullApplication>
+  <Level>Beginning</Level>
+  <Tags>Graphics, Getting Started, iOS9</Tags>
+  <SupportedPlatforms>iOS</SupportedPlatforms>
+  <LicenseRequirement>Starter</LicenseRequirement>
+  <Gallery>true</Gallery>
+  <Brief>Sample demonstrates how to use key functionality provided by MetalKit on both iOS.</Brief>
+</SampleMetadata>
