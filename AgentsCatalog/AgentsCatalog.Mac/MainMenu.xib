@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="AMainMenu" systemMenu="main" id="VoZ-rT-zLL">
+            <items>
+                <menuItem title="AgentsCatalog" id="pe8-cf-uEN">
+                    <menu key="submenu" title="AgentsCatalog" systemMenu="apple" id="pFc-8G-2bO">
+                        <items>
+                            <menuItem title="About AgentsCatalog" id="v5l-pd-9VL">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="QSj-dq-WSO">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Preferences…" keyEquivalent="," id="hvY-3a-M3L"/>
+                            <menuItem isSeparatorItem="YES" id="WVW-Vd-By0">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Services" id="HNc-tk-416">
+                                <menu key="submenu" title="Services" systemMenu="services" id="8wo-3S-PU6"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="zHQ-1D-XGT">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Hide AgentsCatalog" keyEquivalent="h" id="FMe-sR-at3">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="wq3-4b-83W"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" keyEquivalent="h" id="5jE-9g-3CY">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="GDr-QV-Zod"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="tNa-Bg-25v">
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Zd5-SK-OaT"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="kmV-FU-KH3">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Quit AgentsCatalog" keyEquivalent="q" id="3YL-1Z-SYT"/>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="dPh-zW-bUN">
+                    <menu key="submenu" title="Window" systemMenu="window" id="kum-s7-iTU">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="438-DF-bst">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="9j4-7s-QzD"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom" id="AZf-rA-s84">
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="vYC-rN-Han"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="xgW-xa-1Ej">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Bring All to Front" id="RtV-a6-hI5">
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="yLD-uE-q5b"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="lJZ-Sg-VnN">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="bf7-zJ-3Kl">
+                        <items>
+                            <menuItem title="Tim Help" keyEquivalent="?" id="9XT-L2-aLt">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="gkq-CA-DSQ"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+        </menu>
+    </objects>
+</document>

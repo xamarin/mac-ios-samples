@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SampleMetadata>
+    <ID>a92743f9-d98a-4649-8170-7e79a1ce5bed</ID>
+    <IsFullApplication>false</IsFullApplication>
+    <Level>Intermediate</Level>
+    <Tags>Games, iOS9, El Capitan</Tags>
+    <Gallery>true</Gallery>
+    <SupportedPlatforms>iOS, Mac</SupportedPlatforms>
+    <LicenseRequirement>Starter</LicenseRequirement>
+    <Brief>This sample explores the different goals used by the new Agents system in GameplayKit.</Brief>
+</SampleMetadata>
