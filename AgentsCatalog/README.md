@@ -13,6 +13,8 @@ Xcode 7.0, iOS 9.0 SDK or OS X 10.11 SDK
 Runtime Requirements
 ------------------
 
+iOS 9.0 or OS X 10.11
+
 Useful links
 -------------
 
