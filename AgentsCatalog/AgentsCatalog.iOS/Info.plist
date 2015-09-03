@@ -43,5 +43,7 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleDisplayName</key>
+	<string>AgentsCatalog</string>
 </dict>
 </plist>
