@@ -38,7 +38,7 @@ namespace AgentsCatalog.Shared {
 
 		public virtual bool Seeking { get; set; }
 
-		public GKComponentSystem AgentSystem { get; private set; }
+		public GKComponentSystem<GKAgent2D> AgentSystem { get; private set; }
 
 		public GKAgent2D TrackingAgent { get; private set; }
 
@@ -96,7 +96,7 @@ namespace AgentsCatalog.Shared {
 			AddChild (label);
 			#endif
 
-			AgentSystem = new GKComponentSystem (typeof(GKAgent2D));
+			AgentSystem = new GKComponentSystem<GKAgent2D> ();
 			TrackingAgent = new GKAgent2D ();
 			TrackingAgent.Position = new Vector2 ((float)Frame.GetMidX (), (float)Frame.GetMidY ());
 		}
