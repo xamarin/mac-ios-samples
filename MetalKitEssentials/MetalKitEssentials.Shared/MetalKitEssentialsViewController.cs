@@ -203,7 +203,7 @@ namespace MetalKitEssentials {
 
 			// Create MetalKit meshes.
 			MTKMesh[] mtkMeshes;
-			NSArray mdlMeshes;
+			MDLMesh[] mdlMeshes;
 			NSError mtkError;
 
 			var asset = new MDLAsset (assetUrl, mdlVertexDescriptor, bufferAllocator);
@@ -219,7 +219,7 @@ namespace MetalKitEssentials {
 
 			for (int i = 0; i < mtkMeshes.Length; i++) {
 				var mtkMesh = mtkMeshes [i];
-				var mdlMesh = mdlMeshes.GetItem<MDLMesh> ((nuint)i);
+				var mdlMesh = mdlMeshes [(nuint)i];
 				var mesh = new MetalKitEssentialsMesh (mtkMesh, mdlMesh, device);
 				meshes.Add (mesh);
 			}
