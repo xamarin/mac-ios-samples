@@ -1061,9 +1061,23 @@ namespace SceneKitReel
 		{
 			var scnView = (SCNView)this.View;
 			var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, 50));
+
+			//TODO: remove conditional compilation
+			#if iOS
+			var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, pTmp.Z));
+			#elif Mac
 			var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
+			#endif
+
 			p3d.Z = 50;
-			p3d.Y = (float)Math.Max (p3d.Y, 5);
+
+			//TODO: remove conditional compilation
+			#if iOS
+			p3d.Y = Math.Max (p3d.Y, 5);
+			#elif Mac
+			p3d.Y = (nfloat)Math.Max (p3d.Y, 5);
+			#endif
+
 			FieldOwner.Position = p3d;
 			FieldOwner.PhysicsField.Strength = 200000.0f;
 		}
