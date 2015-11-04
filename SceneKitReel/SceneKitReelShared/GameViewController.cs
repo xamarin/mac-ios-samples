@@ -1062,7 +1062,7 @@ namespace SceneKitReel
 			var scnView = (SCNView)this.View;
 			var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, 50));
 
-			//TODO: remove conditional compilation
+			//TODO: remove conditional compilation https://bugzilla.xamarin.com/show_bug.cgi?id=35543
 			#if iOS
 			var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, pTmp.Z));
 			#elif Mac
