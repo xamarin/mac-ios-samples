@@ -17,10 +17,14 @@ Target
 
 This sample runnable on iPhoneSimulator/iPadSimulator, iPhone/iPad and Mac.
 
+Copyright
+--------
+
+Xamarin port changes are released under the MIT license
+
 Authors
 -------
 
-Copyright (C) 2014 Apple Inc. All rights reserved.  
 Ported to Xamarin.iOS/Xamarin.Mac by Rustam Zaitov and Vincent Dondain.
 
 [Apple Developer]:https://developer.apple.com/library/prerelease/ios/documentation/GraphicsAnimation/Conceptual/CodeExplainedAdventure/AdventureArchitecture/AdventureArchitecture.html
