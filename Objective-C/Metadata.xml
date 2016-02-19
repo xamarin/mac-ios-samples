@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SampleMetadata>
+	<ID>2e2e3899-4a89-42bd-851f-1df0bbf3f6df</ID>
+	<Brief>This sample shows how to interact with Objective-C selectors from C#.</Brief>
+	<IsFullApplication>false</IsFullApplication>
+	<Level>Intermediate</Level>
+	<Tags></Tags>
+	<SupportedPlatforms>iOS, Mac</SupportedPlatforms>
+	<LicenseRequirement>Starter</LicenseRequirement>
+	<Gallery>false</Gallery>
+</SampleMetadata>
