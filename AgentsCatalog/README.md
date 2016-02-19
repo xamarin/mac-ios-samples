@@ -22,6 +22,12 @@ Useful links
 
 iOS 9.0 or OS X 10.11
 
-Copyright (C) 2015 Apple Inc. All rights reserved.
+Copyright
+---------
+
+Xamarin port changes are released under the MIT license
+
+Authors
+-------
 
 Ported to Xamarin.iOS by Aaron Sky & Oleg Demchenko
