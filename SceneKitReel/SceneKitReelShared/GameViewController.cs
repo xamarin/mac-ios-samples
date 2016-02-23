@@ -588,7 +588,7 @@ namespace SceneKitReel
 			});
 
 			if (IntroductionStep == 2) {
-				var popTime = new DispatchTime (DispatchTime.Now, (long)(1 * NSEC_PER_SEC));
+				var popTime = new DispatchTime (DispatchTime.Now, 1 * NSEC_PER_SEC);
 				DispatchQueue.MainQueue.DispatchAfter (popTime, () => {
 					SCNTransaction.Begin ();
 					SCNTransaction.AnimationDuration = 1.0f;
@@ -660,7 +660,7 @@ namespace SceneKitReel
 			if (IntroductionStep == 5) {
 				IntroductionStep = 0;//introduction is over
 				// jiterring is now useless since the screen will never be static again.
-				var scnView = (SCNView)this.View;
+				var scnView = (SCNView)View;
 				scnView.JitteringEnabled = false;
 
 				AmbientLightNode.Light.Color = SKColorHelper.FromCommonWhiteAlpha (0.3f, 1.0f);
@@ -892,7 +892,7 @@ namespace SceneKitReel
 			var count = 80;
 			var spread = 6.0f;
 
-			SCNScene scene = ((SCNView)this.View).Scene;
+			SCNScene scene = ((SCNView)View).Scene;
 
 			//tweak physics
 			scene.PhysicsWorld.Gravity = new SCNVector3 (0, -70, 0);
@@ -1186,7 +1186,7 @@ namespace SceneKitReel
 				p.X *= SPRITE_SIZE;
 				p.Y *= SPRITE_SIZE;
 
-				var node = SKSpriteNode.Create ();
+				var node = SKNode.Create ();
 				node.Position = p;
 				node.XScale = 0.33f;
 
@@ -1648,7 +1648,7 @@ namespace SceneKitReel
 			if (Step == 2) {
 				//particles
 				var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, 0));
-				var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
+				var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, pTmp.Z));
 				var handlePos = Handle.WorldTransform;
 
 
@@ -1754,9 +1754,9 @@ namespace SceneKitReel
 
 			if (Step == 1) {
 				//bounce physics!
-				var scnView = (SCNView)this.View;
+				var scnView = (SCNView)View;
 				var pTmp = scnView.ProjectPoint (new SCNVector3 (0, 0, -60));
-				var p3d = scnView.UnprojectPoint (new SCNVector3 (p.X, p.Y, pTmp.Z));
+				var p3d = scnView.UnprojectPoint (new SCNVector3 ((float)p.X, (float)p.Y, pTmp.Z));
 
 				p3d.Y = 0;
 				p3d.Z = 0;
