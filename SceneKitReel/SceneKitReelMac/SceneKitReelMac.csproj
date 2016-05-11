@@ -47,6 +47,7 @@
     <CreatePackage>true</CreatePackage>
     <UseRefCounting>false</UseRefCounting>
     <Profiling>false</Profiling>
+    <DefineConstants>Mac;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <DebugType>full</DebugType>
