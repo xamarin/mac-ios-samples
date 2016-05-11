@@ -33,7 +33,6 @@
     <XamMacArch>x86_64</XamMacArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -48,6 +47,7 @@
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <DefineConstants>TARGET_OS_MAC;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
