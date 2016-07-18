@@ -23,6 +23,9 @@ $RECYCLE.BIN/
 ### MONODEVELOP
 ################
 
+*.lock.json
+*.nuget.props
+*.nuget.targets
 *.userprefs
 *.usertasks
 *.pidb
