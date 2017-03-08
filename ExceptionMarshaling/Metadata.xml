@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SampleMetadata>
+    <ID>56d4b415-0fe4-41ea-9bf8-e62b9c4a5062</ID>
+    <IsFullApplication>false</IsFullApplication>
+    <Level>Advanced</Level>
+    <Tags>Exceptions</Tags>
+    <Gallery>false</Gallery>
+    <SupportedPlatforms>iOS, Mac</SupportedPlatforms>
+    <LicenseRequirement>Starter</LicenseRequirement>
+    <Brief>This sample shows how exception marshaling works.</Brief>
+</SampleMetadata>
