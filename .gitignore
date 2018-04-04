@@ -203,6 +203,7 @@ UpgradeLog*.XML
 *.log
 *.sql
 *.sqlite
+*.vs
 
 # Localizations #
 #################

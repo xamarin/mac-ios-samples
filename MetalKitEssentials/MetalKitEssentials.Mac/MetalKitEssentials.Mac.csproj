@@ -29,6 +29,7 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <Profiling>false</Profiling>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -46,6 +47,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <Profiling>false</Profiling>
     <DefineConstants>MAC;</DefineConstants>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
