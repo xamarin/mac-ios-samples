@@ -43,5 +43,7 @@
 	<string>Main</string>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
+	<key>CFBundleName</key>
+	<string>MetalKitEssentials</string>
 </dict>
 </plist>

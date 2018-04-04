@@ -1,45 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
-
-using CoreAnimation;
 using CoreGraphics;
 using Foundation;
 using Metal;
 using MetalKit;
 using ModelIO;
-using ObjCRuntime;
 using OpenTK;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 
+namespace MetalKitEssentials
+{
 #if IOS
-using UIKit;
+	public partial class MetalKitEssentialsViewController : UIKit.UIViewController, IMTKViewDelegate {
 #elif MAC
-using AppKit;
+	public partial class MetalKitEssentialsViewController : AppKit.NSViewController, IMTKViewDelegate {
 #endif
-
-namespace MetalKitEssentials {
-
-	#if IOS
-	public partial class MetalKitEssentialsViewController : UIViewController, IMTKViewDelegate {
-	#elif MAC
-	public partial class MetalKitEssentialsViewController : NSViewController, IMTKViewDelegate {
-	#endif
 		
 		const int maxInflightBuffers = 3;
 
+		// Renderer.
 		IMTLDevice device;
 		IMTLCommandQueue commandQueue;
 		IMTLLibrary defaultLibrary;
 		IMTLRenderPipelineState pipelineState;
 		IMTLDepthStencilState depthState;
+
+		// View
 		MTKView view;
 
+		// Meshes.
 		List<MetalKitEssentialsMesh> meshes;
 		IMTLBuffer[] frameUniformBuffers = new IMTLBuffer[maxInflightBuffers];
-		Semaphore inflightSemaphore;
 
+		// View Controller.
+		Semaphore inflightSemaphore;
 		int constantDataBufferIndex;
+        
+		// Uniforms.
 		Matrix4 projectionMatrix;
 		Matrix4 viewMatrix;
 		float rotation;
@@ -59,31 +57,34 @@ namespace MetalKitEssentials {
 			SetupMetal ();
 			SetupView ();
 			LoadAssets ();
+			Reshape ();
 		}
 
 		public void DrawableSizeWillChange (MTKView view, CGSize size)
 		{
-			float aspect = (float)Math.Abs (View.Bounds.Width / View.Bounds.Height);
-			projectionMatrix = MathHelper.MatrixFromPerspectiveFovAspectLH (65f * (float)Math.PI / 180f, aspect, .1f, 100f);
-			viewMatrix = Matrix4.Identity;
+			Reshape();
 		}
 
 		public void Draw (MTKView view)
 		{
 			inflightSemaphore.WaitOne ();
 
+			// Perofm any app logic, including updating any Metal buffers.
 			Update ();
 
+			// Create a new command buffer for each renderpass to the current drawable.
 			IMTLCommandBuffer commandBuffer = commandQueue.CommandBuffer ();
 			commandBuffer.Label = "Main Command Buffer";
 
+			// Obtain a renderPassDescriptor generated from the view's drawable textures.
 			MTLRenderPassDescriptor renderPassDescriptor = view.CurrentRenderPassDescriptor;
 
 			// Create a render command encoder so we can render into something.
 			IMTLRenderCommandEncoder renderEncoder = commandBuffer.CreateRenderCommandEncoder (renderPassDescriptor);
 			renderEncoder.Label = "Final Pass Encoder";
 
-			renderEncoder.SetViewport (new MTLViewport (0.0, 0.0, view.DrawableSize.Width, view.DrawableSize.Height, 0.0, 1.0));
+			// Set context state.
+			renderEncoder.SetViewport (new MTLViewport (0d, 0d, view.DrawableSize.Width, view.DrawableSize.Height, 0d, 1d));
 			renderEncoder.SetDepthStencilState (depthState);
 			renderEncoder.SetRenderPipelineState (pipelineState);
 
@@ -96,29 +97,38 @@ namespace MetalKitEssentials {
 				mesh.RenderWithEncoder (renderEncoder);
 
 			renderEncoder.PopDebugGroup ();
+
+			// We're done encoding commands.
 			renderEncoder.EndEncoding ();
 
+			/*
+				Call the view's completion handler which is required by the view since
+				it will signal its semaphore and set up the next buffer.
+			*/
 			var drawable = view.CurrentDrawable;
 			commandBuffer.AddCompletedHandler (_ => {
 				inflightSemaphore.Release ();
 				drawable.Dispose ();
 			});
 
+			/*
+				The renderview assumes it can now increment the buffer index and that
+				the previous index won't be touched until we cycle back around to the same index.
+			*/
 			constantDataBufferIndex = (constantDataBufferIndex + 1) % maxInflightBuffers;
+
+			// Schedule a present once the framebuffer is complete using the current drawable.
 			commandBuffer.PresentDrawable (drawable);
+
+			// Finalize rendering here & push the command buffer to the GPU.
 			commandBuffer.Commit ();
 		}
 
 		void SetupMetal ()
 		{
 			// Set the view to use the default device.
-			#if IOS
 			device = MTLDevice.SystemDefault;
-			#elif MAC
-			// TODO: https://bugzilla.xamarin.com/show_bug.cgi?id=32680
-			var devicePointer = MTLCreateSystemDefaultDevice ();
-			device = Runtime.GetINativeObject<IMTLDevice> (devicePointer, false);
-			#endif
+
 			// Create a new command queue.
 			commandQueue = device.CreateCommandQueue ();
 
@@ -139,9 +149,15 @@ namespace MetalKitEssentials {
 
 		void LoadAssets ()
 		{
+			// Load the fragment program into the library.
 			IMTLFunction fragmentProgram = defaultLibrary.CreateFunction ("fragmentLight");
+			// Load the vertex program into the library.
 			IMTLFunction vertexProgram = defaultLibrary.CreateFunction ("vertexLight");
 
+			/*
+				Create a vertex descriptor for our Metal pipeline. Specifies the layout 
+				of vertices the pipeline should expect.
+			*/
 			var mtlVertexDescriptor = new MTLVertexDescriptor ();
 
 			// Positions.
@@ -189,6 +205,12 @@ namespace MetalKitEssentials {
 			};
 
 			depthState = device.CreateDepthStencilState (depthStateDesc);
+            
+			/*
+				From our Metal vertex descriptor, create a Model I/O vertex descriptor we'll
+				load our asset with. This specifies the layout of vertices Model I/O should
+				format loaded meshes with.
+			*/
 			var mdlVertexDescriptor = MDLVertexDescriptor.FromMetal (mtlVertexDescriptor);
 
 			mdlVertexDescriptor.Attributes.GetItem<MDLVertexAttribute> ((int)VertexAttributes.Position).Name = MDLVertexAttributes.Position;
@@ -201,20 +223,26 @@ namespace MetalKitEssentials {
 			if (assetUrl == null)
 				Console.WriteLine ("Could not find asset.");
 
-			// Create MetalKit meshes.
-			MTKMesh[] mtkMeshes;
-			MDLMesh[] mdlMeshes;
-			NSError mtkError;
+			/*
+				Load Model I/O Asset with mdlVertexDescriptor, specifying vertex layout and
+				bufferAllocator enabling ModelIO to load vertex and index buffers directory
+				into Metal GPU memory.
+			*/
 
 			var asset = new MDLAsset (assetUrl, mdlVertexDescriptor, bufferAllocator);
 
-			mtkMeshes = MTKMesh.FromAsset (asset, device, out mdlMeshes, out mtkError);
+			// Create MetalKit meshes.
+			MDLMesh[] mdlMeshes;
+			NSError mtkError;
+
+			var mtkMeshes = MTKMesh.FromAsset (asset, device, out mdlMeshes, out mtkError);
 
 			if (mtkMeshes == null) {
 				Console.WriteLine ("Failed to create mesh, error {0}", error.LocalizedDescription);
 				return;
 			}
 
+			// Create our array of App-Specific mesh wrapper objects.
 			meshes = new List<MetalKitEssentialsMesh> ();
 
 			for (int i = 0; i < mtkMeshes.Length; i++) {
@@ -228,6 +256,18 @@ namespace MetalKitEssentials {
 				frameUniformBuffers [i] = device.CreateBuffer ((nuint)Marshal.SizeOf<FrameUniforms> (), MTLResourceOptions.CpuCacheModeDefault);
 		}
 
+		void Reshape()
+		{
+			/*
+				When reshape is called, update the view and projection matricies since 
+				this means the view orientation or size changed.
+			*/
+			float aspect = (float)Math.Abs(View.Bounds.Size.Width / View.Bounds.Size.Height);
+			projectionMatrix = MathHelper.MatrixFromPerspectiveFovAspectLH(65f * (float)Math.PI / 180f, aspect, 0.1f, 100f);
+
+			viewMatrix = Matrix4.Identity;
+		}
+
 		void Update ()
 		{
 			var frameData = Marshal.PtrToStructure <FrameUniforms> (frameUniformBuffers [constantDataBufferIndex].Contents);
@@ -236,16 +276,12 @@ namespace MetalKitEssentials {
 			frameData.view = viewMatrix;
 
 			Matrix4 modelViewMatrix = frameData.view * frameData.model;
-			frameData.projectionView = Matrix4.Transpose (projectionMatrix * modelViewMatrix);
+			frameData.projectionView = projectionMatrix * modelViewMatrix;
 			frameData.normal = Matrix4.Invert (Matrix4.Transpose (modelViewMatrix));
 
 			Marshal.StructureToPtr (frameData, frameUniformBuffers [constantDataBufferIndex].Contents, true);
 
 			rotation += .05f;
 		}
-
-		// TODO:remove
-		[DllImport ((Constants.MetalKitLibrary))]
-		static extern  /* MDLVertexDescriptor */ IntPtr MTLCreateSystemDefaultDevice ();
 	}
 }

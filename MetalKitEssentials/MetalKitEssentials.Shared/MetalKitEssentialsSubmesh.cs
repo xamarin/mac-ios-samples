@@ -1,12 +1,11 @@
-using System;
-using System.Runtime.InteropServices;
-
 using Foundation;
 using Metal;
 using MetalKit;
 using ModelIO;
 using ObjCRuntime;
 using OpenTK;
+using System;
+using System.Runtime.InteropServices;
 
 namespace MetalKitEssentials {
 	public class MetalKitEssentialsSubmesh {
@@ -40,16 +39,18 @@ namespace MetalKitEssentials {
 
 					if (diffuseTexture == null)
 						throw new Exception (string.Format ("Diffuse texture load: {0}", error.LocalizedDescription));
-				} else if (property.Name == "BlinnSpecularColor") {
+				} else if (property.Name == "specularColor") {
 					if (property.Type == MDLMaterialPropertyType.Float4)
 						uniforms.specularColor = property.Float4Value;
 					else if (property.Type == MDLMaterialPropertyType.Float3)
 						uniforms.specularColor = new Vector4 (property.Float3Value);
+						uniforms.specularColor.W = 1f;
 				} else if (property.Name == "emission") {
 					if(property.Type == MDLMaterialPropertyType.Float4)
 						uniforms.emissiveColor = property.Float4Value;
 					else if (property.Type == MDLMaterialPropertyType.Float3)
 						uniforms.emissiveColor = new Vector4 (property.Float3Value);
+						uniforms.emissiveColor.W = 1f;
 				}
 			}
 
