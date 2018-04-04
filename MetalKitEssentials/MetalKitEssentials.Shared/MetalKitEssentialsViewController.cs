@@ -102,9 +102,9 @@ namespace MetalKitEssentials
 			renderEncoder.EndEncoding ();
 
 			/*
-                Call the view's completion handler which is required by the view since
-                it will signal its semaphore and set up the next buffer.
-            */
+				Call the view's completion handler which is required by the view since
+				it will signal its semaphore and set up the next buffer.
+			*/
 			var drawable = view.CurrentDrawable;
 			commandBuffer.AddCompletedHandler (_ => {
 				inflightSemaphore.Release ();
@@ -112,9 +112,9 @@ namespace MetalKitEssentials
 			});
 
 			/*
-                The renderview assumes it can now increment the buffer index and that
-                the previous index won't be touched until we cycle back around to the same index.
-            */
+				The renderview assumes it can now increment the buffer index and that
+				the previous index won't be touched until we cycle back around to the same index.
+			*/
 			constantDataBufferIndex = (constantDataBufferIndex + 1) % maxInflightBuffers;
 
 			// Schedule a present once the framebuffer is complete using the current drawable.
@@ -155,9 +155,9 @@ namespace MetalKitEssentials
 			IMTLFunction vertexProgram = defaultLibrary.CreateFunction ("vertexLight");
 
 			/*
-                Create a vertex descriptor for our Metal pipeline. Specifies the layout 
-                of vertices the pipeline should expect.
-            */
+				Create a vertex descriptor for our Metal pipeline. Specifies the layout 
+				of vertices the pipeline should expect.
+			*/
 			var mtlVertexDescriptor = new MTLVertexDescriptor ();
 
 			// Positions.
@@ -207,10 +207,10 @@ namespace MetalKitEssentials
 			depthState = device.CreateDepthStencilState (depthStateDesc);
             
 			/*
-                From our Metal vertex descriptor, create a Model I/O vertex descriptor we'll
-                load our asset with. This specifies the layout of vertices Model I/O should
-                format loaded meshes with.
-            */
+				From our Metal vertex descriptor, create a Model I/O vertex descriptor we'll
+				load our asset with. This specifies the layout of vertices Model I/O should
+				format loaded meshes with.
+			*/
 			var mdlVertexDescriptor = MDLVertexDescriptor.FromMetal (mtlVertexDescriptor);
 
 			mdlVertexDescriptor.Attributes.GetItem<MDLVertexAttribute> ((int)VertexAttributes.Position).Name = MDLVertexAttributes.Position;
@@ -224,10 +224,10 @@ namespace MetalKitEssentials
 				Console.WriteLine ("Could not find asset.");
 
 			/*
-                Load Model I/O Asset with mdlVertexDescriptor, specifying vertex layout and
-                bufferAllocator enabling ModelIO to load vertex and index buffers directory
-                into Metal GPU memory.
-            */
+				Load Model I/O Asset with mdlVertexDescriptor, specifying vertex layout and
+				bufferAllocator enabling ModelIO to load vertex and index buffers directory
+				into Metal GPU memory.
+			*/
 
 			var asset = new MDLAsset (assetUrl, mdlVertexDescriptor, bufferAllocator);
 
@@ -259,9 +259,9 @@ namespace MetalKitEssentials
 		void Reshape()
 		{
 			/*
-                When reshape is called, update the view and projection matricies since 
-                this means the view orientation or size changed.
-            */
+				When reshape is called, update the view and projection matricies since 
+				this means the view orientation or size changed.
+			*/
 			float aspect = (float)Math.Abs(View.Bounds.Size.Width / View.Bounds.Size.Height);
 			projectionMatrix = MathHelper.MatrixFromPerspectiveFovAspectLH(65f * (float)Math.PI / 180f, aspect, 0.1f, 100f);
 
