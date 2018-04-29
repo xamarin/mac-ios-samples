@@ -31,6 +31,7 @@
     <Profiling>false</Profiling>
     <AOTMode>None</AOTMode>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>

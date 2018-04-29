@@ -53,25 +53,6 @@
     <AOTMode>None</AOTMode>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\AppStore</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <LinkMode>SdkOnly</LinkMode>
-    <UseSGen>false</UseSGen>
-    <IncludeMonoRuntime>true</IncludeMonoRuntime>
-    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
-    <CreatePackage>true</CreatePackage>
-    <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
-    <EnableCodeSigning>true</EnableCodeSigning>
-    <EnablePackageSigning>true</EnablePackageSigning>
-    <UseRefCounting>false</UseRefCounting>
-    <Profiling>false</Profiling>
-    <AOTMode>None</AOTMode>
-    <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

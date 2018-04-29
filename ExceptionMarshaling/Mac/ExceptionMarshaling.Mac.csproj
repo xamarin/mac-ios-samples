@@ -34,6 +34,7 @@
     <MonoBundlingExtraArgs>--disable-lldb-attach=true</MonoBundlingExtraArgs>
     <TlsProvider>Default</TlsProvider>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -41,8 +42,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <EnableCodeSigning>false</EnableCodeSigning>
-    <CodeSigningKey>Developer ID Application</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <CreatePackage>false</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
@@ -54,6 +55,7 @@
     <TlsProvider>Default</TlsProvider>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
