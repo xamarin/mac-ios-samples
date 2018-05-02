@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Adventure</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.your-company.Adventure</string>
+	<string>com.xamarin.Adventure</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -43,5 +43,7 @@
 	<string>Assets/Assets - iOS.xcassets/AppIcon.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets/Assets - iOS.xcassets/LaunchImage.launchimage</string>
+	<key>CFBundleName</key>
+	<string>Adventure</string>
 </dict>
 </plist>
