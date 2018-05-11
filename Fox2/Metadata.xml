@@ -2,7 +2,7 @@
 <SampleMetadata>
   <ID>b602bac8-afda-47c4-8e2c-e4129d49a6f5</ID>
   <IsFullApplication>true</IsFullApplication>
-  <Brief>This sample code demonstrates the following Scene Kitfeatures that were added in iOS 11, tvOS 11, and macOS 10.13: * Camera constraints define the camera behaviour of the app/game * A new physically-based depth of field effect achieved with “bokeh” * Screen space GPU tessellation (using Pixar’s openSubdiv) * Animation of character tones using a new animation engine (and API) * Cascaded shadow maps * GameplayKit integration</Brief>
+  <Brief>This sample code demonstrates the following SceneKit features that were added in iOS 11, tvOS 11, and macOS 10.13: * Camera constraints define the camera behaviour of the app/game * A new physically-based depth of field effect achieved with “bokeh” * Screen space GPU tessellation (using Pixar’s openSubdiv) * Animation of character tones using a new animation engine (and API) * Cascaded shadow maps * GameplayKit integration</Brief>
   <SupportedPlatforms>iOS, Mac, tvOS</SupportedPlatforms>
   <Level>Advanced</Level>
   <Tags>Graphics, SceneKit, iOS11</Tags>
