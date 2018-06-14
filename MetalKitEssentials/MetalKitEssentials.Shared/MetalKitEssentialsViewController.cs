@@ -56,8 +56,8 @@ namespace MetalKitEssentials
 			inflightSemaphore = new Semaphore (maxInflightBuffers, maxInflightBuffers);
 
 			SetupMetal ();
-            if (isMetalSupported)
-            {
+            	if (isMetalSupported)
+            	{
 				SetupView ();
 				LoadAssets ();
 				Reshape ();
@@ -128,7 +128,7 @@ namespace MetalKitEssentials
 			commandBuffer.Commit ();
 		}
 
-        void SetupMetal ()
+        	void SetupMetal ()
 		{
 			// Set the view to use the default device.
 			device = MTLDevice.SystemDefault;
