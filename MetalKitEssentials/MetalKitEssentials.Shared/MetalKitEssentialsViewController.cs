@@ -36,7 +36,7 @@ namespace MetalKitEssentials
 		// View Controller.
 		Semaphore inflightSemaphore;
 		int constantDataBufferIndex;
-        bool isMetalSupported;
+        	bool isMetalSupported;
 
 		// Uniforms.
 		Matrix4 projectionMatrix;
@@ -56,8 +56,8 @@ namespace MetalKitEssentials
 			inflightSemaphore = new Semaphore (maxInflightBuffers, maxInflightBuffers);
 
 			SetupMetal ();
-            	if (isMetalSupported)
-            	{
+            		if (isMetalSupported)
+            		{
 				SetupView ();
 				LoadAssets ();
 				Reshape ();
