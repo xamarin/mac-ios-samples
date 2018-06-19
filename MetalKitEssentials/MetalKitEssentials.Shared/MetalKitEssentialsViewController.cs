@@ -36,7 +36,8 @@ namespace MetalKitEssentials
 		// View Controller.
 		Semaphore inflightSemaphore;
 		int constantDataBufferIndex;
-        
+        	bool isMetalSupported;
+
 		// Uniforms.
 		Matrix4 projectionMatrix;
 		Matrix4 viewMatrix;
@@ -55,9 +56,12 @@ namespace MetalKitEssentials
 			inflightSemaphore = new Semaphore (maxInflightBuffers, maxInflightBuffers);
 
 			SetupMetal ();
-			SetupView ();
-			LoadAssets ();
-			Reshape ();
+            		if (isMetalSupported)
+            		{
+				SetupView ();
+				LoadAssets ();
+				Reshape ();
+			}
 		}
 
 		public void DrawableSizeWillChange (MTKView view, CGSize size)
@@ -124,16 +128,26 @@ namespace MetalKitEssentials
 			commandBuffer.Commit ();
 		}
 
-		void SetupMetal ()
+        	void SetupMetal ()
 		{
 			// Set the view to use the default device.
 			device = MTLDevice.SystemDefault;
+			if (device != null)
+			{
+				// mark that metal is supported by this device
+				isMetalSupported = true;
 
-			// Create a new command queue.
-			commandQueue = device.CreateCommandQueue ();
+				// Create a new command queue.
+				commandQueue = device.CreateCommandQueue ();
 
-			// Load all the shader files with a metal file extension in the project.
-			defaultLibrary = device.CreateDefaultLibrary ();
+				// Load all the shader files with a metal file extension in the project.
+				defaultLibrary = device.CreateDefaultLibrary ();
+			}
+			else
+			{
+				// that mean that device doesn't support Metal
+				isMetalSupported = false;
+			}
 		}
 
 		void SetupView ()
