@@ -210,3 +210,4 @@ UpgradeLog*.XML
 *.po~
 
 .idea/
+.vscode/settings.json
